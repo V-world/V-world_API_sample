@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>브이월드 코드샘플</title>
+	<script type="text/javascript" src="https://map.vworld.kr/js/webglMapInit.js.do?version=2.0&apiKey=E5B1657B-9B6F-3A4B-91EF-98512BE931A1"></script>
+	<script type="text/javascript" src="https://cesium.com/downloads/cesiumjs/releases/1.101/Build/Cesium/Cesium.js"></script>
+</head>
+<body>
+<div id="vmap" style="width:1200px;height:750px;left:0px;top:0px"></div>
+<script>
+	var mapOptions = new vw.MapOptions(
+		vw.BasemapType.GRAPHIC,
+		"",
+		vw.DensityType.FULL,
+		vw.DensityType.BASIC,
+		false,
+		new vw.CameraPosition(
+			new vw.CoordZ(-97, 38, 3000000),
+			new vw.Direction(0, -95, 0)
+		),
+		new vw.CameraPosition(
+			new vw.CoordZ(126.824883, 37.524370, 3000000),
+			new vw.Direction(0, -90, 0)
+		)
+	);
+	map = new vw.Map("vmap", mapOptions);
+
+
+	const viewer = ws3d.viewer;
+	const scene = viewer.scene;
+
+
+	const layers = viewer.scene.imageryLayers;
+
+	//3D지도 로드 완료시
+	vw.ws3dInitCallBack = function () {
+		// 이미지 오버레이
+		const vworldLogo = new Cesium.ImageryLayer(new Cesium.SingleTileImageryProvider({
+			url: "https://www.vworld.kr/images/dtpo_main/m_logoTop_w.png",
+			rectangle: Cesium.Rectangle.fromDegrees(125, 35, 130, 36)
+		}));
+		layers.add(vworldLogo);
+	};
+
+
+
+
+</script>
+</body>
+</html>
