@@ -44,8 +44,9 @@
 						console.log(`${feature.properties.emd_kor_nm}의 면적: ${areaInKm2.toFixed(2)} km²`);
 
 						areaList.push({name: feature.properties.emd_kor_nm, area: areaInKm2});
+						//면적이 높은 순으로 정렬
 						areaList.sort(function(a, b) {
-							return a.area - b.area;
+							return b.area - a.area;
 						});
 
 					} catch (error) {
