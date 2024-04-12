@@ -37,6 +37,8 @@
 				data.response.result.featureCollection.features.forEach(function(feature) {
 					try {
 						var multiPolygon = new ol.geom.MultiPolygon([feature.geometry.coordinates[0]]);
+						/*폴리곤의 좌표를 3857로 변경하여야하나 이미 3857로 불러왔으므로 생략*/
+						// multiPolygon.transform('#불러온 좌표계', 'EPSG:3857');
 
 						var area = ol.sphere.getArea(multiPolygon, {projection: 'EPSG:3857'});
 						var areaInKm2 = area / 1000000;
