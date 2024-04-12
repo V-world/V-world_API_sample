@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>브이월드 코드샘플</title>
+	<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/ol@v7.1.0/dist/ol.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.1.0/ol.css"/>
+</head>
+<body>
+	<script>
+
+
+		areaList = [];
+
+		$.ajax({
+			url: 'https://api.vworld.kr/req/data',
+			type: 'get',
+			dataType: 'jsonp',
+			data: {
+				service: 'data',
+				version: '2.0',
+				request: 'GetFeature',
+				//★☆★☆★☆★ 인증키를 다른곳에 사용하시면 안됩니다. ★☆★☆★☆★
+				key: 'E5B1657B-9B6F-3A4B-91EF-98512BE931A1',
+				//★☆★☆★☆★ 인증키를 다른곳에 사용하시면 안됩니다. ★☆★☆★☆★
+				format: 'json',
+				size: 30,
+				page: 1,
+				data: 'LT_C_ADEMD_INFO',
+				geomFilter: 'BOX(14115930.245713329, 4461368.662961091, 14182736.208434572, 4524811.396437787)',
+				crs: 'EPSG:3857'
+			},
+			success: function(data) {
+
+				data.response.result.featureCollection.features.forEach(function(feature) {
+					try {
+						var multiPolygon = new ol.geom.MultiPolygon([feature.geometry.coordinates[0]]);
+
+						var area = ol.sphere.getArea(multiPolygon, {projection: 'EPSG:3857'});
+						var areaInKm2 = area / 1000000;
+
+						console.log(`${feature.properties.emd_kor_nm}의 면적: ${areaInKm2.toFixed(2)} km²`);
+
+						areaList.push({name: feature.properties.emd_kor_nm, area: areaInKm2});
+						areaList.sort(function(a, b) {
+							return a.area - b.area;
+						});
+
+					} catch (error) {
+						console.error("오류:", error);
+					}
+				});
+			}, complete: function() {
+				console.log(areaList);
+			}
+
+
+
+
+		});
+	</script>
+</body>
+</html>
