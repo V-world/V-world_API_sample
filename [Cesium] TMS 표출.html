@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>브이월드 코드샘플</title>
+	<!-- ★☆★☆★☆★ 인증키를 다른곳에 사용하시면 안됩니다. ★☆★☆★☆★-->
+	<script type="text/javascript" src="https://map.vworld.kr/js/webglMapInit.js.do?version=2.0&apiKey=E5B1657B-9B6F-3A4B-91EF-98512BE931A1"></script>
+	<!-- ★☆★☆★☆★ 인증키를 다른곳에 사용하시면 안됩니다. ★☆★☆★☆★-->
+	<script type="text/javascript" src="https://cesium.com/downloads/cesiumjs/releases/1.101/Build/Cesium/Cesium.js"></script>
+</head>
+<body>
+<div id="vmap" style="width:1200px;height:750px;left:0px;top:0px"></div>
+<script>
+	var mapOptions = new vw.MapOptions(
+		vw.BasemapType.GRAPHIC,
+		"",
+		vw.DensityType.FULL,
+		vw.DensityType.BASIC,
+		false,
+		new vw.CameraPosition(
+			new vw.CoordZ(-97, 38, 3000000),
+			new vw.Direction(0, -95, 0)
+		),
+		new vw.CameraPosition(
+			new vw.CoordZ(126.824883, 37.524370, 3000000),
+			new vw.Direction(0, -90, 0)
+		)
+	);
+	map = new vw.Map("vmap", mapOptions);
+
+
+	const viewer = ws3d.viewer;
+	const scene = viewer.scene;
+
+
+	const layers = viewer.scene.imageryLayers;
+
+	//3D지도 로드 완료시
+	vw.ws3dInitCallBack = function () {
+
+		var tmsImageryProvider = new Cesium.UrlTemplateImageryProvider({
+			/*CORS 오류로 인해 해당 샘플에서는 브이월드 proxy를 이용하여 처리
+			* 브이월드 proxy는 브이월드 이용 외에 사용 금지*/
+			url: 'http://map.vworld.kr/proxy.do?url=https://api.vworld.kr/req/tms/1.0.0/E5B1657B-9B6F-3A4B-91EF-98512BE931A1/Base/{z}/{reverseY}/{x}.png',
+			// url: 'https://api.vworld.kr/req/tms/1.0.0/E5B1657B-9B6F-3A4B-91EF-98512BE931A1/Base/{z}/{reverseY}/{x}.png',
+			customTags: {
+				reverseY: function(imageryProvider, x, y, level) {
+					var tilesRange = Math.pow(2, level);
+					return tilesRange - y - 1;
+				}
+			}
+		});
+
+		// 새 TMS 이미지 제공자를 뷰어에 추가
+		viewer.imageryLayers.addImageryProvider(tmsImageryProvider);
+
+
+
+	};
+
+
+
+
+</script>
+</body>
+</html>
