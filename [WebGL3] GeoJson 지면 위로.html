@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey=E5B1657B-9B6F-3A4B-91EF-98512BE931A1"></script>
+</head>
+<body>
+<div id="map" style="width: 100%; height: 100vh;"></div>
+</body>
+<script type="text/javascript">
+    var map;
+    var options = {
+        mapId: "vmap", // 지도맵 컨테이너 아이디
+        initPosition: new vw.CameraPosition(
+            new vw.CoordZ(236.921883, 37.524370, 2400),
+            new vw.Direction(0, -90, 0)
+        ), // 초기 위치
+        logo: true, // 하단 로고 설정. true:표출, false:미표출
+        navigation: true // 오른쪽 상단 네비게이션 설정. true:표출, false:미표출
+    };
+
+    map = new vw.Map();
+    map.setOption(options);
+    map.setMapId("map");
+    map.setInitPosition(new vw.CameraPosition(
+        new vw.CoordZ(127.921883, 37.524370, 24000),
+        new vw.Direction(0, -90, 0)
+    ));
+    map.setNavigationZoomVisible(false);
+    map.start(); // 지도 생성
+
+
+    const viewer = ws3d.viewer;
+
+
+    vw.ws3dInitCallBack = function() {
+
+        Cesium.GeoJsonDataSource.load('./data/[WebGL3] GeoJson 지면 위로/광역시도.geojson', {
+            stroke: Cesium.Color.HOTPINK,
+            fill: Cesium.Color.PINK.withAlpha(0.5),
+            strokeWidth: 3,
+            clampToGround: true // 지면 위에 고정되도록 설정
+        }).then(function(dataSource) {
+            viewer.dataSources.add(dataSource);
+
+            // 데이터의 중심으로 카메라 이동
+            viewer.zoomTo(dataSource);
+        }).catch(function(error) {
+            console.error('GeoJson 파일을 불러오는 중 오류 발생:', error);
+        });
+
+    }
+
+
+
+</script>
+</html>
