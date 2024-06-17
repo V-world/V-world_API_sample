@@ -23,7 +23,7 @@ folium.TileLayer(
     name='브이월드 배경지도',
 ).add_to(map)
 ```
-![image](./downloads/브이월드%20배경지도%20불러오기.png)
+![image](./images/브이월드%20배경지도%20불러오기.png)
 
 
 - WMS(LX맵) 불러오기
@@ -45,7 +45,7 @@ folium.WmsTileLayer(
 ```python
 folium.LayerControl().add_to(map)
 ```
-![image](./downloads/WMS(LX맵)%20불러오기.png)
+![image](./images/WMS(LX맵)%20불러오기.png)
 
 
 [📥 3D모델 다운로드](https://drive.usercontent.google.com/download?id=1Nu9fvBzGn4CKGFlAxc3yOyfABYf5HFDU&export=download&authuser=2)
