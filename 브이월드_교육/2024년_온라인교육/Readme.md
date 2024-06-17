@@ -59,14 +59,16 @@ folium.LayerControl().add_to(map)
 ```
 ![image](./images/WMS(LX맵)%20불러오기.png)
 
-- 지오코딩
+- 지오코딩 변수 선언
 ```python
 address = [
     ['공간정보산업진흥원', '경기도 성남시 분당구 삼평동 624-3'],
     ['판교역', '경기도 성남시 분당구 백현동 534-1'],
     ['성남역', '경기도 성남시 분당구 백현동 545-1'],
 ]
-
+```
+- 지오코딩 실행
+```python
 import requests
 apiurl = 'https://api.vworld.kr/req/address?'
 for addr in address:
@@ -83,14 +85,16 @@ for addr in address:
     if response.status_code == 200:
         data = response.json()
 
-        print(data['response']['result']['point']) # 브이월드는 x y 순으로 가져온다
+        print(data['response']['result']['point']) 
         x = data['response']['result']['point']['x']
         y = data['response']['result']['point']['y']
 
         folium.Marker([y, x],
-                      popup = folium.Popup(f'<b>{addr[0]}</b><br>{addr[1]}', max_width=200),
-                      icon = folium.Icon(color='red', icon='bookmark') # 아이콘 색상 변경(red, blue 등) 및 아이콘 변경(home, star, flag, cloud, heart, bookmark 등)
-                      ).add_to(map) # folium은 y x 순으로 받는다.
+            popup = folium.Popup(f'<b>{addr[0]}</b><br>{addr[1]}', max_width=200),
+            icon = folium.Icon(color='red', icon='bookmark') 
+            # 아이콘 색상 변경(red, blue 등) 및 아이콘 변경(home, star, flag, cloud, heart, bookmark 등)
+        ).add_to(map) 
+        # folium은 y x 순 입력 받는다.
 
 
 map.save('map.html')
