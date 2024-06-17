@@ -4,18 +4,20 @@
 
 ## 목차
 1. [파일 다운로드](#파일-다운로드)   
-2. [🙋‍♀️ 2차시 교육](#🙋‍♀️‍-2차시 교육)   
-    2-1.[folium 불러오기](#-folium-불러오기)   
-    2-2 [브이월드 배경지도 불러오기](#-브이월드 배경지도 불러오기)   
-    2-3 [WMS(LX맵) 불러오기](#-WMS(LX맵) 불러오기)   
-    2-4 [레이어 컨트롤 기능 추가하기](#-레이어 컨트롤 기능 추가하기)
+2. [2차시 교육](#2차시-교육)   
+    2-1. [folium 불러오기](#folium-불러오기)   
+    2-2. [브이월드 배경지도 불러오기](#브이월드-배경지도-불러오기)   
+    2-3. [WMS(LX맵) 불러오기](#WMSLX맵-불러오기)   
+    2-4. [레이어 컨트롤 기능 추가하기](#레이어-컨트롤-기능-추가하기)   
+    2-5. [지오코딩 변수 선언](#지오코딩-변수-선언)   
+    2-6. [지오코딩 실행](#지오코딩-실행)      
    
 ## 파일 다운로드
 [📥 교육자료 다운로드](https://drive.usercontent.google.com/download?id=1Nu9fvBzGn4CKGFlAxc3yOyfABYf5HFDU&export=download&authuser=2)
 
 
-## 🙋‍♀️ 2차시 교육
-- folium 불러오기
+## 2차시 교육
+### folium 불러오기
 ```python
 import folium
 
@@ -27,7 +29,7 @@ map = folium.Map(
     zoom_start=7,
 )
 ```
-- 브이월드 배경지도 불러오기
+### 브이월드 배경지도 불러오기
 ```python
 folium.TileLayer(
     tiles=f'https://api.vworld.kr/req/wmts/1.0.0/{apikey}/Base/{{z}}/{{y}}/{{x}}.png',
@@ -38,7 +40,7 @@ folium.TileLayer(
 ![image](./images/브이월드%20배경지도%20불러오기.png)
 
 
-- WMS(LX맵) 불러오기
+### WMS(LX맵) 불러오기
 ```python
 folium.WmsTileLayer(
     url='https://api.vworld.kr/req/wms?',
@@ -53,13 +55,13 @@ folium.WmsTileLayer(
     name='LX맵(편집지적도)',
 ).add_to(map)
 ```
-- 레이어 컨트롤 기능 추가하기
+### 레이어 컨트롤 기능 추가하기
 ```python
 folium.LayerControl().add_to(map)
 ```
 ![image](./images/WMS(LX맵)%20불러오기.png)
 
-- 지오코딩 변수 선언
+### 지오코딩 변수 선언
 ```python
 address = [
     ['공간정보산업진흥원', '경기도 성남시 분당구 삼평동 624-3'],
@@ -67,7 +69,7 @@ address = [
     ['성남역', '경기도 성남시 분당구 백현동 545-1'],
 ]
 ```
-- 지오코딩 실행
+### 지오코딩 실행
 ```python
 import requests
 apiurl = 'https://api.vworld.kr/req/address?'
