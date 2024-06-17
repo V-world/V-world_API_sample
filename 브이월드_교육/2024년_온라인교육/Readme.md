@@ -4,9 +4,7 @@
 
 ## 목차
 1. [파일 다운로드](#파일-다운로드)
-2. [🙋‍♀️ 2차시 교육](#🙋‍♀️ 2차시 교육)
-2. [🙋‍♀️ 2차시 교육](#🙋‍♀️‍-2차시-교육)
-2. [🙋‍♀️ 2차시 교육](#-🙋‍♀️‍-2차시 교육)
+2. [🙋‍♀️ 2차시 교육](#🙋‍♀️‍-2차시 교육)
 
 ## 파일 다운로드
 [📥 교육자료 다운로드](https://drive.usercontent.google.com/download?id=1Nu9fvBzGn4CKGFlAxc3yOyfABYf5HFDU&export=download&authuser=2)
