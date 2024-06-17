@@ -18,8 +18,8 @@
     4-3. [건물 및 주제도 레이어 불러오기](#건물-및-주제도-레이어-불러오기)   
     4-4. [주제도 레이어 속성 조회하기](#주제도-레이어-속성-조회하기)   
    
-## 교육자료 다운로드
-[📥 교육자료 다운로드](https://drive.usercontent.google.com/download?id=1Nu9fvBzGn4CKGFlAxc3yOyfABYf5HFDU&export=download&authuser=2)
+## 교육자료 다운로드(추후 업로드 예정)
+[📥 교육자료 다운로드]
 
 
 ## 사전 준비
