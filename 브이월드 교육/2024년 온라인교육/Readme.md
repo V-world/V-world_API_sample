@@ -48,4 +48,4 @@ folium.LayerControl().add_to(map)
 ![image](./downloads/WMS(LX맵)%20불러오기.png)
 
 
-[📥 3D모델 다운로드](https://github.com/2adf3c14-56c9-483f-9da4-803916f0f40d)
+[📥 3D모델 다운로드](https://drive.usercontent.google.com/download?id=1Nu9fvBzGn4CKGFlAxc3yOyfABYf5HFDU&export=download&authuser=2)
