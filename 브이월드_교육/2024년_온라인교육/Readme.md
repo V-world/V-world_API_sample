@@ -29,7 +29,7 @@
 - Python 설치
 ![image](./images/Python.JPG)
 
-[📥 2. Visual Studio Code 다운로드](https://www.python.org/downloads/)
+[📥 2. Visual Studio Code 다운로드](https://code.visualstudio.com/)
 
 - Visual Studio Code 설치
 ![image](./images/VSCode%20(1).JPG)
