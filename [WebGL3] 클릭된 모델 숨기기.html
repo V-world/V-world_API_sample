@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey=E5B1657B-9B6F-3A4B-91EF-98512BE931A1"></script>
+</head>
+<body>
+<div id="map" style="width: 100%; height: 100vh;"></div>
+</body>
+<script type="text/javascript">
+    var map;
+    var options = {
+        mapId: "map", // 지도맵 컨테이너 아이디
+        initPosition: new vw.CameraPosition(
+            new vw.CoordZ(126.821883, 37.524370, 1000),
+            new vw.Direction(0, -90, 0)
+        ), // 초기 위치
+        logo: true, // 하단 로고 설정. true:표출, false:미표출
+        navigation: true // 오른쪽 상단 네비게이션 설정. true:표출, false:미표출
+    };
+
+    map = new vw.Map();
+    map.setOption(options);
+    map.start(); // 지도 생성
+
+
+    const viewer = ws3d.viewer;
+
+    viewer.screenSpaceEventHandler.setInputAction(function onLeftClick(movement) {
+        var pickedFeature = viewer.scene.pick(movement.position);
+        if (Cesium.defined(pickedFeature)) {
+            toggleVisibility(pickedFeature);
+        }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+    /**
+     * 선택된 객체를 on/off
+     * @param pickedFeature 3D타일에서 선택된 객체(피처)
+     */
+    function toggleVisibility(pickedFeature) {
+        if (pickedFeature instanceof Cesium.Cesium3DTileFeature) {
+            pickedFeature.show = !pickedFeature.show; // 가시성 토글
+        }
+    }
+
+
+</script>
+</html>
