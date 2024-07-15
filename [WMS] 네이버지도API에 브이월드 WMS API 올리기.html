@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!-- 
+	고객사 프로젝트 진행중 수변 구역과, 상수원보호구역을 지도상에 표현하는 부분에 대하여 문의드리고자 합니다.
+
+    현재는 shp파일을 받아서 지도 zoom레벨별로 이미지로 변환하여 zoom레벨에 맞는 이미지를 가져오도록 하여 지도위에 뿌리고 있습니다.
+
+    실시간으로 api를 통해서 가져오고 싶지만 shp파일로 지원하는 4개의 수변구역중  2개의 수변구역은 api 지원목록에 보이질 않습니다.
+
+    하여, 최종적 정리하면 수변,상수원 보호구역을 네이버 지도위에 zoom in, zoom out시 끊김없이 실시간으로 가져 오고싶습니다.
+
+    지원 부탁드립니다.
+  -->
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+        <title>네이버 지도 위에 수자원 관련 api 적용</title>  
+        <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=73t8j3n6gd"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js"></script>
+        <script src="https://openlayers.org/en/v5.3.0/build/ol.js"></script>
+        <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    </head>
+
+    <body>
+        <div id="map" style="width: 100%; height: 700px; left: 0px; top: 0px"></div>
+        <div> 	
+            <input type="checkbox" name="dt_d105" onclick="checkLayer(this, 'dt_d105')"> 한강수계/수변구역
+            <input type="checkbox" name="dt_d106" onclick="checkLayer(this, 'dt_d106')"> 낙동강수계/수변구역
+            <input type="checkbox" name="dt_d106" onclick="checkLayer(this, 'dt_d337')"> 금강수계/수변구역
+            <input type="checkbox" name="dt_d106" onclick="checkLayer(this, 'dt_d338')"> 영산강수계/수변구역
+            <input type="checkbox" name="lt_c_um710" onclick="checkLayer(this, 'lt_c_um710')"> 상수원보호구역
+        </div>
+        <div>
+            <p><b>원하는 레이어 체크 후, 지도 위에 마우스를 대면 wms 레이어가 나타납니다.</b>
+            <br>(레이어마다 표출영역이 다르므로 줌인 후 확인 바랍니다.)
+            <br>* 해당 데이터는 브이월드의 API를 사용하였습니다.</p>
+        </div>
+
+        <script type="text/javascript">
+            var bounds,
+            projection,
+            mapOptions = {
+                center: new naver.maps.LatLng(37.3595704, 127.105399),
+                zoom: 10
+            };
+
+            var map = new naver.maps.Map('map', mapOptions);
+
+            var vworldkey = "CBDA8338-FEF2-34AE-9B04-D31B3597153F";
+            var width = $("#map").width();
+            var height = $("#map").height();
+            var groundOverlay;
+            var wmslayers; 
+        
+            var checkLayer = function(c,name){ //레이어 제어
+                //mouseover, mouseout
+                var listener = naver.maps.Event.addListener(map, 'mouseover', function() {
+
+                    bounds = map.getBounds();
+                    projection = map.getProjection();
+                    
+                    wmslayers = "https://api.vworld.kr/req/wms?" +
+                                "layers="+name+"&"+
+                                "request=GetMap&" +
+                                "bgcolor=0xFFFFFF&" +
+                                "crs=EPSG:4326&" +
+                                "key=" + vworldkey +"&"+
+                                "format=image/png&" +
+                                "width="+width+"&"+
+                                "height="+height+"&"+
+                                "bbox="+bounds.minY()+','+bounds.minX()+','+bounds.maxY()+','+bounds.maxX() ;
+                                //"bbox=32.99023555965106,122.73925781249999,38.77121637244272,133.1103515625", //한반도 전체 영역
+
+                    groundOverlay = new naver.maps.GroundOverlay(
+                        wmslayers,
+                        bounds,
+                        {
+                            opacity: 1,
+                            clickable: false
+                        }
+                    );
+
+                    if($(c).is(":checked")==true) { 
+                        groundOverlay.setMap(map);
+                        naver.maps.Event.addListener(map, 'mouseout', function() {
+                            groundOverlay.setMap(null);
+                        });
+                        naver.maps.Event.addListener(map, 'bounds_changed', function() {
+                            groundOverlay.setMap(null);
+                        });
+                    } else {
+                        groundOverlay.setMap(null);
+                    }
+
+                });
+            }
+                
+        </script>
+    </body>
+</html>
