@@ -15,6 +15,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
         <title>네이버 지도 위에 수자원 관련 api 적용</title>  
+        <!--네이버 지도 API 선언-->
         <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=73t8j3n6gd"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js"></script>
         <script src="https://openlayers.org/en/v5.3.0/build/ol.js"></script>
@@ -46,19 +47,20 @@
 
             var map = new naver.maps.Map('map', mapOptions);
 
-            var vworldkey = "CBDA8338-FEF2-34AE-9B04-D31B3597153F";
+            var vworldkey = "CBDA8338-FEF2-34AE-9B04-D31B3597153F"; // 브이월드 인증키
             var width = $("#map").width();
             var height = $("#map").height();
             var groundOverlay;
             var wmslayers; 
         
             var checkLayer = function(c,name){ //레이어 제어
-                //mouseover, mouseout
+                // 지도 위에 마우스를 올리면 WMS 이미지가 표출되도록 listener 선언
                 var listener = naver.maps.Event.addListener(map, 'mouseover', function() {
 
                     bounds = map.getBounds();
                     projection = map.getProjection();
                     
+                    // 현재 지도 영역에 대한 WMS API로 호출
                     wmslayers = "https://api.vworld.kr/req/wms?" +
                                 "layers="+name+"&"+
                                 "request=GetMap&" +
@@ -71,23 +73,29 @@
                                 "bbox="+bounds.minY()+','+bounds.minX()+','+bounds.maxY()+','+bounds.maxX() ;
                                 //"bbox=32.99023555965106,122.73925781249999,38.77121637244272,133.1103515625", //한반도 전체 영역
 
+                    // 네이버 지도 API에서는 WMS를 불러오는 기능이 없어 groundOverlay 사용
                     groundOverlay = new naver.maps.GroundOverlay(
                         wmslayers,
                         bounds,
                         {
-                            opacity: 1,
+                            opacity: 1, // 투명도 설정
                             clickable: false
                         }
                     );
 
+                    // 체크 선택 되어있는 레이어에 한해 WMS 표출
                     if($(c).is(":checked")==true) { 
                         groundOverlay.setMap(map);
+
+                        // 체크 선택이 되어있지만 마우스가 지도 영역 밖으로 나갔을 시 WMS 레이어 제거
                         naver.maps.Event.addListener(map, 'mouseout', function() {
                             groundOverlay.setMap(null);
                         });
+                        // 체크 선택이 되어있지만 지도 영역에 변경이 있을 시(지도 영역 이동 시) WMS 레이어 제거
                         naver.maps.Event.addListener(map, 'bounds_changed', function() {
                             groundOverlay.setMap(null);
                         });
+                    //체크 해제 시 WMS 레이어 제거
                     } else {
                         groundOverlay.setMap(null);
                     }
