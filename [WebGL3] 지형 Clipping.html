@@ -4,16 +4,32 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="text/javascript" src="https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey=E5B1657B-9B6F-3A4B-91EF-98512BE931A1"></script>
+    <style>
+        .divButton {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            z-index: 1000;
+            transform: translateX(-50%);
+        }
+        button{
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
 <div id="map" style="width: 100%; height: 100vh;"></div>
+<div class="divButton">
+    <button onclick="inClipping()">In Clipping</button>
+    <button onclick="outClipping()">Out Clipping</button>
+</div>
 </body>
 <script type="text/javascript">
     var map;
     var options = {
         mapId: "vmap", // 지도맵 컨테이너 아이디
         initPosition: new vw.CameraPosition(
-            new vw.CoordZ(127.921883, 37.524370, 1500),
+            new vw.CoordZ(127.921883, 37.524370, 2700),
             new vw.Direction(0, -90, 0)
         ), // 초기 위치
         logo: true,
@@ -33,11 +49,49 @@
     let edgeStylingEnabled = true; // 테두리 스타일링 활성화
     let clippingPlanesEnabled = true; // 클리핑 플레인 활성화
 
-    vw.ws3dInitCallBack = function() {
-        const position = Cesium.Cartographic.toCartesian(
-            new Cesium.Cartographic.fromDegrees(127.921883, 37.524370, 100)
+    const position = Cesium.Cartographic.toCartesian(
+        new Cesium.Cartographic.fromDegrees(127.921883, 37.524370, 100)
+    );
+    const distance = 1000.0;
+    const boundingSphere = new Cesium.BoundingSphere(position, distance);
+
+    function inClipping() {
+        globe.depthTestAgainstTerrain = true;
+        globe.clippingPlanes = new Cesium.ClippingPlaneCollection({
+            modelMatrix: Cesium.Transforms.eastNorthUpToFixedFrame(position),
+            planes: [
+                new Cesium.ClippingPlane(
+                    new Cesium.Cartesian3(1.0, 0.0, 0.0),
+                    (distance * -1)
+                ),
+                new Cesium.ClippingPlane(
+                    new Cesium.Cartesian3(-1.0, 0.0, 0.0),
+                    (distance * -1)
+                ),
+                new Cesium.ClippingPlane(
+                    new Cesium.Cartesian3(0.0, 1.0, 0.0),
+                    (distance * -1)
+                ),
+                new Cesium.ClippingPlane(
+                    new Cesium.Cartesian3(0.0, -1.0, 0.0),
+                    (distance * -1)
+                ),
+            ],
+            edgeWidth: edgeStylingEnabled ? 1.0 : 0.0,
+            edgeColor: Cesium.Color.WHITE,
+            enabled: clippingPlanesEnabled,
+        });
+        globe.backFaceCulling = true;
+        globe.showSkirts = true;
+
+        viewer.camera.viewBoundingSphere(
+            boundingSphere,
+            new Cesium.HeadingPitchRange(0.5, -0.5, boundingSphere.radius * 5.0)
         );
-        const distance = 1000.0;
+        viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+    }
+
+    function outClipping() {
         const boundingSphere = new Cesium.BoundingSphere(position, distance);
 
         globe.clippingPlanes = new Cesium.ClippingPlaneCollection({
