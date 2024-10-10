@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!-- 2D 지도 2개 사용하기 -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>2D 지도 2개 사용하기</title>
+<script type="text/javascript" src="https://map.vworld.kr/js/vworldMapInit.js.do?version=2.0&apiKey=CEB52025-E065-364C-9DBA-44880E3B02B8&domain="></script>
+
+</head>
+
+<body>
+
+<div style="display: flex;">
+    <div style="float: left; width: 50%;">
+        <div id="vmap" style="width: 100%; height: 700px;"></div>
+    </div>
+    <div style="float: left; width: 50%;">
+        <div id="vmap_two" style="width: 100%; height: 700px;"></div>
+    </div>	
+</div>
+
+<!-- 지도가 그려지는 영역 조정 -->
+<div>
+
+</div>
+<script type="text/javascript">
+
+    // 지도 1
+	vw.ol3.MapOptions = {
+	    basemapType: vw.ol3.BasemapType.GRAPHIC
+	  , controlDensity: vw.ol3.DensityType.FULL
+	  , interactionDensity: vw.ol3.DensityType.BASIC
+	  , controlsAutoArrange: true
+	  , homePosition: vw.ol3.CameraPosition
+	  , initPosition: vw.ol3.CameraPosition
+	}; 
+	let vmap = new vw.ol3.Map("vmap",  vw.ol3.MapOptions); 
+	
+    // 지도2
+    vw.ol3.MapOptions_2 = {
+	    basemapType: vw.ol3.BasemapType.GRAPHIC_NIGHT
+	  , controlDensity: vw.ol3.DensityType.FULL
+	  , interactionDensity: vw.ol3.DensityType.BASIC
+	  , controlsAutoArrange: true
+	  , homePosition: vw.ol3.CameraPosition
+	  , initPosition: vw.ol3.CameraPosition
+	}; 
+	let vmap_two = new vw.ol3.Map("vmap_two",  vw.ol3.MapOptions_2); 
+
+</script>
+</body>
+</html>
