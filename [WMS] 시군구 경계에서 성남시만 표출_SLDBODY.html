@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<meta name="robots" content="noindex">
+<html>
+<head>
+<script src="https://openlayers.org/en/v5.3.0/build/ol.js"></script>
+<link rel="stylesheet" 	href="https://openlayers.org/en/v5.3.0/css/ol.css" type="text/css">
+
+<meta charset="UTF-8">
+<title>브이월드 시도, 시군구 경계</title>
+
+<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+<!-- <script src="/js/jquery.xdomainajax.js"></script> -->
+<style type="text/css">
+.ol-mycontrol {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    padding: 4px;
+    margin-left: 10px;
+    position: block;
+    width:55px;
+    top: 5px;
+    left:40px;
+}
+.ol-mycontrol button {
+    float:left;
+}
+.ol-mycontrol button.on {
+    background-color:rgba(124,60,55,.5);
+}
+</style>
+
+</head>
+<body>
+	<div style="float: left;">	</div>
+	<div id="map" style="float: clear; width: 800px; height: 500px;" ></div>
+	<div>
+		<p>- 파란색 경계 : 시도경계</p>
+		<p>- 빨간색 면적 : 시군구경계 중 성남시 영역</p>
+	</div>
+	
+	<script>
+	
+	var VworldBase,VworldSatellite;
+	var attr = '&copy; <a href="http://vworld.kr">vworld</a>';
+	
+    var VworldBase = new ol.source.XYZ({
+        url: 'https://api.vworld.kr/req/wmts/1.0.0/CEB52025-E065-364C-9DBA-44880E3B02B8/Base/{z}/{y}/{x}.png'
+        ,attributions : attr
+	}); // 기본지도 타일
+      
+	/*
+		control 설정
+	*/
+	
+	var base_button = document.createElement('button');
+	base_button.innerHTML = 'B';
+	
+    var element = document.createElement('div');
+    element.className = 'rotate-north ol-unselectable ol-control ol-mycontrol';
+    
+    base_button.onclick=function(){
+        map.getLayers().forEach(function(layer){
+			if(layer.get("name")=="vworld"){
+				layer.setSource(VworldBase)
+			}
+	    })
+    }
+    
+    element.appendChild(base_button);
+    
+    var layerControl = new ol.control.Control({element: element});
+       
+	map = new ol.Map({
+		controls: ol.control.defaults().extend([
+			layerControl,new ol.control.OverviewMap(),new ol.control.ZoomSlider()
+		]),
+		layers: [
+			
+			new ol.layer.Tile({
+				source: VworldBase,
+				name:"vworld"
+			})
+		],
+		target: 'map',
+		view: new ol.View({
+			center: ol.proj.transform([127.100616,37.402142], 'EPSG:4326', 'EPSG:900913'),
+			zoom: 16,
+			minZoom : 0,
+			maxZoom : 21
+		})
+	});
+
+	var sldbody_sigg = `<StyledLayerDescriptor xmlns="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0.0" xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd">
+	<NamedLayer>
+	<Name>sop:lt_c_adsigg</Name>
+	<UserStyle>
+	<Name>Default Styler</Name>
+	<Title>시군구경계</Title>
+	<Abstract>시군구경계</Abstract>
+	<FeatureTypeStyle>
+
+	<Rule>
+		<Name>성남시</Name>
+		<Title>성남시</Title>
+		<ogc:Filter>
+			<ogc:PropertyIsLike wildCard="%" singleChar="#" escape="!">
+				<ogc:PropertyName>sig_kor_nm</ogc:PropertyName>
+				<ogc:Literal>성남시%</ogc:Literal>
+			</ogc:PropertyIsLike>
+			<ogc:Overlaps>
+				<ogc:PropertyName>ag_geom</ogc:PropertyName>
+			</ogc:Overlaps>
+		</ogc:Filter>
+		<PolygonSymbolizer>
+			<Fill>
+				<CssParameter name="fill">#FF0000</CssParameter>
+				<CssParameter name="fill-opacity">0.7</CssParameter>
+			</Fill>
+			<Stroke>
+				<CssParameter name="stroke">#FF0000</CssParameter>
+				<CssParameter name="stroke-opacity">0</CssParameter>
+			</Stroke>
+		</PolygonSymbolizer>
+	</Rule>
+
+	<Rule>
+		<TextSymbolizer>
+			<Geometry>
+				<ogc:Function name="centroid">
+				<ogc:PropertyName>ag_geom</ogc:PropertyName>
+				</ogc:Function>
+			</Geometry>
+			<Label>
+				<ogc:PropertyName>sig_kor_nm</ogc:PropertyName> 
+			</Label>
+			<Font>
+				<CssParameter name="font-family">Arial</CssParameter>
+				<CssParameter name="font-size">12</CssParameter>
+				<CssParameter name="font-style">normal</CssParameter>
+				<CssParameter name="font-weight">bold</CssParameter>
+			</Font>  
+			<LabelPlacement>
+				<PointPlacement>
+					<AnchorPoint>
+						<AnchorPointX>0.5</AnchorPointX>
+						<AnchorPointY>0.5</AnchorPointY>
+					</AnchorPoint>
+				</PointPlacement>
+			</LabelPlacement>
+			<Halo>
+				<Radius>2</Radius>
+				<Fill>
+					<CssParameter name="fill">#000000</CssParameter>
+				</Fill>
+			</Halo>
+			<Fill>
+				<CssParameter name="fill">#FFFFFF</CssParameter>
+			</Fill>
+			<ogc:VendorOption name="group">yes</ogc:VendorOption>
+			<ogc:VendorOption name="labelAllGroup">true</ogc:VendorOption>
+		</TextSymbolizer>
+	</Rule>
+
+	</FeatureTypeStyle>
+	</UserStyle>
+	</NamedLayer>
+	</StyledLayerDescriptor>`;
+
+
+	
+
+	//시도 레이어 표출
+	var wms_title = '시도';
+	var wms_val = 'LT_C_ADSIDO';
+	wms_val = wms_val.toLowerCase();
+	var wms_tile_adsido = new ol.layer.Tile({
+		name : "WMS_LAYER",
+		source : new ol.source.TileWMS({
+			url : "https://api.vworld.kr/req/wms?",
+			params : {
+				LAYERS : wms_val,
+				STYLES : wms_val,
+				CRS : "EPSG:900913",
+				apikey : "CEB52025-E065-364C-9DBA-44880E3B02B8",
+				DOMAIN : "http://loacalhost:8080",
+				title : wms_title,
+				FORMAT : "image/png"
+			}
+		})
+	});
+	map.addLayer(wms_tile_adsido);	
+
+	//시군구 레이어 표출
+	var wms_title = '시군구';
+	var wms_val = 'LT_C_ADSIGG';
+	wms_val = wms_val.toLowerCase();
+	var wms_tile_adsigg = new ol.layer.Tile({
+		name : "WMS_LAYER",
+		source : new ol.source.TileWMS({
+			url : "https://api.vworld.kr/req/wms?",
+			params : {
+				LAYERS : wms_val,
+				STYLES : wms_val,
+				CRS : "EPSG:900913",
+				apikey : "CEB52025-E065-364C-9DBA-44880E3B02B8",
+				DOMAIN : "http://loacalhost:8080",
+				title : wms_title,
+				FORMAT : "image/png"
+				,SLD_BODY : sldbody_sigg
+			}
+		})
+	});
+	map.addLayer(wms_tile_adsigg);	
+
+	map.getView().setZoom(12);
+	
+	function movexy(){
+		map.getView().setCenter([x,y])
+		map.getView().setZoom(13);
+	}
+
+    </script>
+</body>
+</html>
