@@ -19,8 +19,8 @@
     4-4. [주제도 레이어 속성 조회하기](#주제도-레이어-속성-조회하기)   
    
 ## 교육자료 다운로드
-[📥 1. 공간정보 오픈플랫폼 활용 교육(1차)](https://drive.google.com/file/d/1535SRJeTIAa1_xWgTV20wLv_Ea2PoNuJ/view?usp=sharing)   
-[📥 2. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/1LNv0JyoLYLzeIEYNM3da8jFp5nO5j72-/view?usp=sharing)   
+[📥 1. 공간정보 오픈플랫폼 활용 교육(1차)](https://drive.google.com/file/d/1LdivxU16PqD8wla0JMLNZhkxgKS_xkAd/view?usp=sharing)   
+[📥 2. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/18iu-vp5-S9wvQE_bZS6MOfNgimxVWIrw/view?usp=sharing)   
 
 
 ## 사전 준비
