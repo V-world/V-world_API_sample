@@ -25,6 +25,8 @@
 
 
 ## 사전 준비
+- 교육용 인증키 : EEEEEEEE-EEEE-EEEE-EEEE-EEEEEEEEEEEE
+
 [📥 1. Python 다운로드](https://www.python.org/downloads/)
 
 - Python 설치
