@@ -359,7 +359,7 @@ var wfsEvent = function(windowPosition, ecefPosition, cartographic, featureInfo,
 
 ### 기본 주제도 목록 조회하기
 
-![image](./images/3D 레이어 기본 제공 목록.png)
+![image](./images/3D레이어기본제공목록.png)
 ```
 console.log(map.getLayerAllElement());
 //WebGL 3D 지도 API 사용 화면에서 개발자모드(F12)를 통해 기본 주제도 목록 확인 가능
