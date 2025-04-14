@@ -17,13 +17,16 @@
     4-2. [3D지도 불러오기](#3d지도-불러오기)   
     4-3. [건물 및 주제도 레이어 불러오기](#건물-및-주제도-레이어-불러오기)   
     4-4. [주제도 레이어 속성 조회하기](#주제도-레이어-속성-조회하기)   
+    4-5. [기본 주제도 목록 조회하기](#기본-주제도-목록-조회하기)  
    
 ## 교육자료 다운로드
-[📥 1. 공간정보 오픈플랫폼 활용 교육(1차)](https://drive.google.com/file/d/1535SRJeTIAa1_xWgTV20wLv_Ea2PoNuJ/view?usp=sharing)   
-[📥 2. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/1LNv0JyoLYLzeIEYNM3da8jFp5nO5j72-/view?usp=sharing)   
+[📥 1. 공간정보 오픈플랫폼 활용 교육(1차)](https://drive.google.com/file/d/1LdivxU16PqD8wla0JMLNZhkxgKS_xkAd/view?usp=sharing)   
+[📥 2. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/18iu-vp5-S9wvQE_bZS6MOfNgimxVWIrw/view?usp=sharing)   
 
 
 ## 사전 준비
+- 교육용 인증키 : EEEEEEEE-EEEE-EEEE-EEEE-EEEEEEEEEEEE
+
 [📥 1. Python 다운로드](https://www.python.org/downloads/)
 
 - Python 설치
@@ -355,3 +358,11 @@ var wfsEvent = function(windowPosition, ecefPosition, cartographic, featureInfo,
 }
 ```
 ![image](./images/주제도속성조회.png)
+
+### 기본 주제도 목록 조회하기
+
+![image](./images/3D레이어기본제공목록.png)
+```
+console.log(map.getLayerAllElement());
+//WebGL 3D 지도 API 사용 화면에서 개발자모드(F12)를 통해 기본 주제도 목록 확인 가능
+```

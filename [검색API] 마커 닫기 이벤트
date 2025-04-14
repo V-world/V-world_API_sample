@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <style type="text/css">
+    body {
+      width: 960px;
+      height: 500px;
+      position: relative;
+    }
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+	.ol-popup {
+        position: absolute;
+        background-color: white;
+        -webkit-filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+        filter: drop-shadow(0 1px 4px rgba(0,0,0,0.2));
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #cccccc;
+        bottom: 12px;
+        left: -50px;
+        min-width: 280px;
+      }
+      .ol-popup:after, .ol-popup:before {
+        top: 100%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+      .ol-popup:after {
+        border-top-color: white;
+        border-width: 10px;
+        left: 48px;
+        margin-left: -10px;
+      }
+      .ol-popup:before {
+        border-top-color: #cccccc;
+        border-width: 11px;
+        left: 48px;
+        margin-left: -11px;
+      }
+	.ol-popup-closer {
+        text-decoration: none;
+        position: absolute;
+        top: 2px;
+        right: 8px;
+	}
+	.ol-popup-closer:after {
+	content: "✖";
+	}
+    </style>
+    <title>브이월드 검색 API 2.0를 사용한 마커 커스터마이징</title>
+  </head>
+
+  <body>
+    <div id="map" style="height: 400px;"></div>
+	<form id="searchForm" action="#" class="form_data" onsubmit="return false;search();">
+		<input type="hidden" name="page" value="1" />
+		<input type="hidden" name="type" value="PLACE" />
+		<input type="hidden" name="request" value="search" />
+		<input type="hidden" name="apiKey" value="CEB52025-E065-364C-9DBA-44880E3B02B8" />
+		
+		<div>
+			<input type="text"  id="searchValue" name="query" value="야탑역" style="width: 100px;" /> <a href="javascript:search();" >검색</a> 
+		</div>
+	</form>
+	
+	<script type="text/javascript" src="http://map.vworld.kr/js/vworldMapInit.js.do?version=2.0&apiKey=CEB52025-E065-364C-9DBA-44880E3B02B8"></script>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript">
+		vw.ol3.MapOptions = {
+    		basemapType : vw.ol3.BasemapType.PHOTO,
+    		controlDensity : vw.ol3.DensityType.BASIC,
+    		interactionDensity : vw.ol3.DensityType.FULL,
+    		controlsAutoArrange : true,
+    		homePosition : vw.ol3.CameraPosition,
+    		initPosition : vw.ol3.CameraPosition,
+    	};
+    	map = new vw.ol3.Map("map", vw.ol3.MapOptions);
+        
+        var features = new Array();
+        var styleCache = new Array();
+		var search = function(){
+			
+			//오버레이 초기화
+	        map.getOverlays().forEach(function(overlay){
+				map.removeOverlay(map.getOverlayById(overlay.getId()))
+    	    });
+			
+			$.ajax({
+				type: "get",
+				url: "http://api.vworld.kr/req/search",
+				data : $('#searchForm').serialize(),
+				dataType: 'jsonp',
+				async: false,
+				success: function(data) {
+					for(var o in data.response.result.items){ 
+						
+						if(o==0){
+							move(data.response.result.items[o].point.x*1,data.response.result.items[o].point.y*1);
+						}
+						//Feature 객체에 저장하여 활용 
+						features[o] = new ol.Feature({
+					        geometry: new ol.geom.Point(ol.proj.transform([ data.response.result.items[o].point.x*1,data.response.result.items[o].point.y*1],'EPSG:4326', "EPSG:900913")),
+					        title: data.response.result.items[o].title,
+					        parcel: data.response.result.items[o].address.parcel,
+					        road: data.response.result.items[o].address.road,
+					        category: data.response.result.items[o].category,
+					        point: data.response.result.items[o].point
+					    });
+						features[o].set("id",data.response.result.items[o].id);
+						
+						var iconStyle = new ol.style.Style({
+							image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+								anchor: [0.5, 46],
+								anchorXUnits: 'fraction',
+								anchorYUnits: 'pixels',
+								src: 'http://map.vworld.kr/images/ol3/marker_blue.png'
+							}))
+						});
+						features[o].setStyle(iconStyle);
+						
+                        // 팝업 레이어 생성
+		        		var overlayElement= document.createElement("div"); // 오버레이 팝업설정 
+		        		
+		        		overlayElement.setAttribute("class", "ol-popup");
+
+                        //'x' 선택 혹은 레이어 팝업 클릭 시 deleteOverlay 함수로 넘어가면서 이벤트 발생
+		        		overlayElement.setAttribute("onclick", "deleteOverlay('"+features[o].get("id")+"')");
+						overlayElement.innerHTML+='<a href="javascript:deleteOverlay('+features[o].get("id")+');" id="popup-closer" class="ol-popup-closer"></a>';
+
+		        		overlayElement.innerHTML+="<p>"+data.response.result.items[o].title+"</p>";
+		        		
+		        		var overlayInfo = new ol.Overlay({
+		        			id: features[o].get("id"),
+		        			element:overlayElement,
+		        			offset: [0, -70],
+		        			position: ol.proj.transform([features[o].get("point").x*1, features[o].get("point").y*1],'EPSG:4326', "EPSG:900913")
+		        		});
+		        		
+		        		if(features[o].get("id") != null){
+			        		map.removeOverlay(map.getOverlayById(features[o].get("id")));
+		        		}
+		        		
+		        		map.addOverlay(overlayInfo);
+						
+						
+					}
+					
+					var vectorSource = new ol.source.Vector({
+			        	  features: features
+			       	});
+			        
+			   		var vectorLayer = new ol.layer.Vector({
+						source: vectorSource
+					});
+			       	
+			        /*
+			        	기존검색결과를 제거하기 위해 키 값 생성
+			   		*/
+			   		vectorLayer.set("vectorLayer","search_vector")
+			        
+			        map.getLayers().forEach(function(layer){
+						if(layer.get("vectorLayer")=="search_vector"){
+							map.removeLayer(layer);
+						}
+		    	    });
+			        
+					map.addLayer(vectorLayer);
+				},
+				error: function(xhr, stat, err) {}
+			});
+		}
+		
+		var move = function(x,y){//127.10153, 37.402566
+			map.getView().setCenter(ol.proj.transform([ x, y ],'EPSG:4326', "EPSG:900913")); // 지도 이동
+			map.getView().setZoom(12);
+		}
+
+        // 알람 팝업 표출 후 '확인' 버튼 클릭 시 레이어 팝업 닫기
+        var deleteOverlay = function(id){
+            if (confirm('팝업 닫기 클릭 시 알람 이벤트')) {
+                map.removeOverlay(map.getOverlayById(id));
+            }
+        }
+		
+    </script>
+  </body>
+</html>
