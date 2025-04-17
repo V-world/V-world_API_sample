@@ -17,7 +17,7 @@
     4-1. [HTML 띄워보기](#html-띄워보기)<br>
     4-2. [3D지도 불러오기](#3d지도-불러오기)<br>
     4-3. [건물 및 주제도 레이어 불러오기](#건물-및-주제도-레이어-불러오기)<br>
-    4-4. [주제도 레이어 속성 조회하기](#주제도-레이어-속성-조회하기)<br>
+    4-4. [건물 추가](#건물-추가)<br>
 
 ## 교육자료 다운로드
 
@@ -29,6 +29,7 @@
 
 [📥 1. QGIS 다운로드](https://www.qgis.org/download/)
 
+- QGIS 설치
 ![image](./images/QGIS%20(3).png)
 ![image](./images/QGIS%20(2).png)
 ![image](./images/QGIS%20(1).png)
@@ -303,3 +304,64 @@ function wmsSample() {
 ```
 
 ![image](./images/주제도표출.png)
+
+### 건물 추가
+
+- GLB모델 불러오기(깃허브 내 아파트.glb 참고)
+
+```javascript
+vw.ws3dInitCallBack = function () { //3D지도가 로드된 후 실행되는 함수
+    // 단일 GLB 모델 불러오기
+    var modelEntity = viewer.entities.add({
+        name : '아파트',
+        position : Cesium.Cartesian3.fromDegrees(x좌표, y좌표), 
+        model : {
+            uri : ‘./아파트.glb’,
+            scale : 1.0,
+            show: true,
+            minimumPixelSize: 128,
+            maximumScale: 20000
+        }
+    });
+    viewer.zoomTo(modelEntity);
+}
+```
+
+```javascript
+vw.ws3dInitCallBack = function () { //3D지도가 로드된 후 실행되는 함수
+    // 여러 개의 GLB 모델 불러오기(for문)
+    local = [
+        [127.0183562336405, 37.03524812928357],
+        [127.0193888841112, 37.035849779909654],
+        [127.02031424622122, 37.03647711872429],
+        [127.01912602762772, 37.03456082860656],
+        [127.0200808940369, 37.035288810436484],
+        [127.02108404020844, 37.035826227839195]
+    ]
+
+    for (var i = 0; i < local.length; i++) {
+        var modelEntity = viewer.entities.add({
+            name : '아파트 '+[i],
+            description : '아파트 '+[i]+' 입니다.',
+            position : Cesium.Cartesian3.fromDegrees(local[i][0], local[i][1]),
+            model : {
+                uri : './아파트.glb',
+                scale : 1.0
+            }
+        });
+        viewer.zoomTo(modelEntity);
+    }
+}
+
+// 3D모델을 클릭했을 때 이벤트 발생(속성성)
+var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
+handler.setInputAction(function (click) {
+    var pickedObject = viewer.scene.pick(click.position);
+    if (Cesium.defined(pickedObject) && pickedObject.id) {
+        var entity = pickedObject.id;
+        alert(entity.name + '\n' + entity.description); // \n 을 사용하면 줄바꿈이 됩니다.
+    }
+}, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+```
+
+![image](./images/GLB모델%20여러%20개%20불러오기.png)
