@@ -22,16 +22,23 @@
 ## 교육자료 다운로드
 
 [📥 1. 공간정보 오픈플랫폼 활용 교육(1차)](https://drive.google.com/file/d/1s84-QXfpqPUn2uVFkOITQrHbZhrTf1zV/view?usp=drive_link)<br>
-📥 2. 공간정보 오픈플랫폼 개발 교육(1차~3차) - 금주 중 업로드 예정
+[📥 2. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/1cEAIAahv6A8k2wk4Fn9yWOao03Ct-vyw/view?usp=drive_link)<br>
+📥 소스는 교육 이후 업로드 예정
 
 ## 사전 준비
 
-[📥 1. Python 다운로드](https://www.python.org/downloads/)
+[📥 1. QGIS 다운로드](https://www.qgis.org/download/)
+
+![image](./images/QGIS%20(3).png)
+![image](./images/QGIS%20(2).png)
+![image](./images/QGIS%20(1).png)
+
+[📥 2. Python 다운로드](https://www.python.org/downloads/)
 
 - Python 설치
 ![image](./images/Python.JPG)
 
-[📥 2. Visual Studio Code 다운로드](https://code.visualstudio.com/)
+[📥 3. Visual Studio Code 다운로드](https://code.visualstudio.com/)
 
 - Visual Studio Code 설치
 ![image](./images/VSCode%20(1).JPG)
@@ -296,88 +303,3 @@ function wmsSample() {
 ```
 
 ![image](./images/주제도표출.png)
-
-### 주제도 레이어 속성 조회하기
-
-- html
-
-```html
-<div style="height: 700px; padding: 20px;">
-    <form id="wfsForm">
-        <input type="hidden" name="key" value="CBDA8338-FEF2-34AE-9B04-D31B3597153F">
-        <input type="hidden" name="SERVICE" value="WFS">
-        <input type="hidden" name="version" value="1.1.0">
-        <input type="hidden" name="request" value="GetFeature">
-        <input type="hidden" name="TYPENAME" value="lt_c_landinfobasemap">
-        <input type="hidden" name="OUTPUT" value="text/javascript">
-        <input type="hidden" name="SRSNAME" value="EPSG:4326">
-        <input type="hidden" name="BBOX" value="">
-    </form>
-    <div>
-        <span><b>* 선택한 LX맵(편집지적도) WFS *</b></span><div><ul id="resultDiv"></ul></div>
-    </div>
-</div>
-```
-
-- js
-
-```javascript
-//대략적인 마우스 클릭 크기에 맞는 BBOX 영역 계산
-var getBuffer = function(x,y){
-    position = map.getCurrentPosition().position
-    var z = position.z
-
-    //111,000KM  1도 단위
-    var m = 1/(111000/z*1.48*50);
-    var h = 1/(111000/z*1.85*50);
-
-    return [m,h];
-}
-
-// LX맵(연속지적도) WFS
-var wfsEvent = function(windowPosition, ecefPosition, cartographic, featureInfo, event) {
-    var mh = getBuffer(cartographic.longitudeDD,cartographic.latitudeDD);
-
-    let min = [cartographic.longitudeDD-mh[0],cartographic.latitudeDD-mh[1]]
-    let max = [cartographic.longitudeDD+mh[0],cartographic.latitudeDD+mh[1]]
-    let box = min[0]+","+min[1]+","+max[0]+","+max[1]
-
-    $('#wfsForm > [name=BBOX]').val(box); 
-    
-    $.ajax({
-        type: "get",
-        url: "https://api.vworld.kr/req/wfs",
-        data : $('#wfsForm').serialize(),
-        dataType: 'jsonp',
-        async: false,
-        jsonpCallback:"parseResponse",
-        success: function(data) {
-            var resultHtml = "";
-            if(data.totalFeatures == 0){
-                alert("검색결과가 없습니다.");
-            }else{
-                if(chk != 0){
-                    var data = data.features[0].properties;
-                    console.log(data);
-                    let resultHtml="";
-                    resultHtml+="<li> - 필지번호(pnu) : "+data.pnu+"</li>";
-                    resultHtml+="<li> - 시도명(sido_nm) : "+data.sido_nm+"</li>";
-                    resultHtml+="<li> - 시군구명(sgg_nm) : "+data.sgg_nm+"</li>";
-                    resultHtml+="<li> - 읍면동명(emd_nm) : "+data.emd_nm+"</li>";
-                    resultHtml+="<li> - 리명(ri_nm) : "+data.ri_nm+"</li>";
-                    resultHtml+="<li> - 지번(jibun) : "+data.jibun+"</li>";
-                    resultHtml+="<li> - 지목(jimok) : "+data.jimok+"</li>";
-                    resultHtml+="<li> - 소유지명(owner_nm) : "+data.owner_nm+"</li>";
-
-                    $('#resultDiv').html(resultHtml);
-                }
-                
-            }//else 종료
-        },
-        
-        error: function(xhr, stat, err) {}
-    });
-}
-```
-
-![image](./images/주제도속성조회.png)
