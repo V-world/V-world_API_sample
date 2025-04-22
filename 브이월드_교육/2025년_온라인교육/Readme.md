@@ -22,7 +22,7 @@
 ## 교육자료 다운로드
 
 [📥 1. 공간정보 오픈플랫폼 활용 교육(1차)](https://drive.google.com/file/d/1s84-QXfpqPUn2uVFkOITQrHbZhrTf1zV/view?usp=drive_link)<br>
-[📥 2. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/1cEAIAahv6A8k2wk4Fn9yWOao03Ct-vyw/view?usp=drive_link)<br>
+[📥 2. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/1V-WcyNWiq2T_Nvg9RSSvxlyByzIEbD8K/view?usp=drive_link)<br>
 📥 소스는 교육 이후 업로드 예정
 
 ## 사전 준비
