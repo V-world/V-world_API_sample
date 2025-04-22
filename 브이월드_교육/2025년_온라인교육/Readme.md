@@ -27,19 +27,20 @@
 
 ## 사전 준비
 
-<a href="https://www.qgis.org/download/" target="_blank">📥 1. QGIS 다운로드</a>
+- 깃허브 제한사항으로 해당 링크 클릭 시 새 창으로 열리지 않기 때문에 "링크를 마우스 우클릭" 하여 열기 권장합니다.
+[📥 1. QGIS 다운로드](https://www.qgis.org/download/)
 
 - QGIS 설치
 ![image](./images/QGIS%20(3).png)
 ![image](./images/QGIS%20(2).png)
 ![image](./images/QGIS%20(1).png)
 
-<a href="https://www.python.org/downloads/" target="_blank">📥 2. Python 다운로드</a>
+[📥 2. Python 다운로드](https://www.python.org/downloads/)
 
 - Python 설치
 ![image](./images/Python.JPG)
 
-<a href="https://code.visualstudio.com/" target="_blank">📥 3. Visual Studio Code 다운로드</a>
+[📥 3. Visual Studio Code 다운로드](https://code.visualstudio.com/)
 
 - Visual Studio Code 설치
 ![image](./images/VSCode%20(1).JPG)
