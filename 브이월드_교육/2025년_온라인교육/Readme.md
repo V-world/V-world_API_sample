@@ -27,19 +27,19 @@
 
 ## 사전 준비
 
-[📥 1. QGIS 다운로드](https://www.qgis.org/download/){: target="_blank"}
+[📥 1. QGIS 다운로드](https://www.qgis.org/download/){:target="_blank"}
 
 - QGIS 설치
 ![image](./images/QGIS%20(3).png)
 ![image](./images/QGIS%20(2).png)
 ![image](./images/QGIS%20(1).png)
 
-[📥 2. Python 다운로드](https://www.python.org/downloads/){: target="_blank"}
+[📥 2. Python 다운로드](https://www.python.org/downloads/){:target="_blank"}
 
 - Python 설치
 ![image](./images/Python.JPG)
 
-[📥 3. Visual Studio Code 다운로드](https://code.visualstudio.com/){: target="_blank"}
+[📥 3. Visual Studio Code 다운로드](https://code.visualstudio.com/){:target="_blank"}
 
 - Visual Studio Code 설치
 ![image](./images/VSCode%20(1).JPG)
