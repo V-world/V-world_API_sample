@@ -6,40 +6,40 @@
 
 1. [교육자료 다운로드](#교육자료-다운로드)
 2. [🔥 사전 준비(개발교육 시 필수)](#사전-준비)
-3. [✌️ 2차시 교육](#2차시-교육)<br>
-    3-1. [folium 불러오기](#folium-불러오기)<br>
-    3-2. [브이월드 배경지도 불러오기](#브이월드-배경지도-불러오기)<br>
-    3-3. [WMS(LX맵) 불러오기](#wmslx맵-불러오기)<br>
-    3-4. [레이어 컨트롤 기능 추가하기](#레이어-컨트롤-기능-추가하기)<br>
-    3-5. [지오코딩 변수 선언](#지오코딩-변수-선언)<br>
-    3-6. [지오코딩 실행](#지오코딩-실행)<br>
-4. [👌 3차시 교육](#3차시-교육)<br>
-    4-1. [HTML 띄워보기](#html-띄워보기)<br>
-    4-2. [3D지도 불러오기](#3d지도-불러오기)<br>
-    4-3. [건물 및 주제도 레이어 불러오기](#건물-및-주제도-레이어-불러오기)<br>
-    4-4. [건물 추가](#건물-추가)<br>
+3. [✌️ 2차시 교육](#2차시-교육)</br>
+    3-1. [folium 불러오기](#folium-불러오기)</br>
+    3-2. [브이월드 배경지도 불러오기](#브이월드-배경지도-불러오기)</br>
+    3-3. [WMS(LX맵) 불러오기](#wmslx맵-불러오기)</br>
+    3-4. [레이어 컨트롤 기능 추가하기](#레이어-컨트롤-기능-추가하기)</br>
+    3-5. [지오코딩 변수 선언](#지오코딩-변수-선언)</br>
+    3-6. [지오코딩 실행](#지오코딩-실행)</br>
+4. [👌 3차시 교육](#3차시-교육)</br>
+    4-1. [HTML 띄워보기](#html-띄워보기)</br>
+    4-2. [3D지도 불러오기](#3d지도-불러오기)</br>
+    4-3. [건물 및 주제도 레이어 불러오기](#건물-및-주제도-레이어-불러오기)</br>
+    4-4. [건물 추가](#건물-추가)</br>
 
 ## 교육자료 다운로드
 
-[📥 1. 공간정보 오픈플랫폼 활용 교육(1차)](https://drive.google.com/file/d/1s84-QXfpqPUn2uVFkOITQrHbZhrTf1zV/view?usp=drive_link)<br>
-[📥 2. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/1V-WcyNWiq2T_Nvg9RSSvxlyByzIEbD8K/view?usp=drive_link)<br>
+[📥 1. 공간정보 오픈플랫폼 활용 교육(1차)](https://drive.google.com/file/d/1s84-QXfpqPUn2uVFkOITQrHbZhrTf1zV/view?usp=drive_link)</br>
+[📥 2. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/1V-WcyNWiq2T_Nvg9RSSvxlyByzIEbD8K/view?usp=drive_link)</br>
 📥 소스는 교육 이후 업로드 예정
 
 ## 사전 준비
 
-[📥 1. QGIS 다운로드](https://www.qgis.org/download/)
+[📥 1. QGIS 다운로드](https://www.qgis.org/download/){: target="_blank"}
 
 - QGIS 설치
 ![image](./images/QGIS%20(3).png)
 ![image](./images/QGIS%20(2).png)
 ![image](./images/QGIS%20(1).png)
 
-[📥 2. Python 다운로드](https://www.python.org/downloads/)
+[📥 2. Python 다운로드](https://www.python.org/downloads/){: target="_blank"}
 
 - Python 설치
 ![image](./images/Python.JPG)
 
-[📥 3. Visual Studio Code 다운로드](https://code.visualstudio.com/)
+[📥 3. Visual Studio Code 다운로드](https://code.visualstudio.com/){: target="_blank"}
 
 - Visual Studio Code 설치
 ![image](./images/VSCode%20(1).JPG)
