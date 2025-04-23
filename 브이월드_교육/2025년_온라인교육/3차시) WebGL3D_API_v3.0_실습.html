@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>VWorld WebGL 3D API 3.0 Sample</title>
+        <script type="text/javascript" src="https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey=CBDA8338-FEF2-34AE-9B04-D31B3597153F"></script>
+        <style type="text/css">
+            table{
+                border-collapse: separate;
+                border-spacing: 0;
+                text-align: left;
+                line-height: 1.5;
+                border-top: 1px solid #ccc;
+                border-left: 1px solid #ccc;
+                margin: 20px 10px;
+            }
+            table th{
+                width: 150px;
+                padding: 10px;
+                font-weight: bold;
+                vertical-align: top;
+                border-right: 1px solid #ccc;
+                border-bottom: 1px solid #ccc;
+                border-top: 1px solid #fff;
+                border-left: 1px solid #fff;
+                background: #eee;
+            }
+            table td{
+                padding: 10px;
+                vertical-align: top;
+                border-right: 1px solid #ccc;
+                border-bottom: 1px solid #ccc;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div style="display: flex;">
+            <!-- 맵 영역 지정 -->
+            <div style="float: left; width: 70%;">
+                <div id="vmap" style="width: 100%; height: 700px;"></div>
+            </div>
+            <div style="float: left; width: 40%;">
+                <header>
+                    <table id="wlayerList">
+                        <tr>
+                            <th>건물 레이어 On/Off</th>
+                            <td><input type="checkbox" onclick="checkLayer(this, 'facility_build')" checked="checked"></td>
+                            <!--POI_BASE-->
+                        </tr>
+                        <tr>
+                            <th>WMS LX맵(편집지적도) 레이어</th>	
+                            <td><input type="button" value="WMS 조회" onclick="wmsSample();"/></td>
+                        </tr>
+                    </table>
+                </header>
+            </div>
+        </div>
+
+        <script>
+            // 지도 생성
+            var map;	
+            var options = {
+            mapId : "vmap",// 지도맵 컨테이너 아이디
+            initPosition : new vw.CameraPosition(
+                new vw.CoordZ(127.01923256131714, 37.03564822859657, 1500),  
+                new vw.Direction(0, -90, 0)
+                ), // 초기 위치
+            logo: true,	 // 하단 로고 설정. true : 표출, false : 미표출
+            navigation: false // 오른쪽 상단 네비게이션 설정. true : 표출, false : 미표출
+            };
+            
+            map = new vw.Map();
+            map.setOption(options);
+            map.start(); // 지도 생성
+
+            // 건물 레이어 ON/OFF
+            var checkLayer = function(c,name){ //레이어 제어
+                if($(c).is(":checked")==false) {
+                    map.getLayerElement(name).hide() //레이어 하이드
+                } else {
+                    map.getLayerElement(name).show() // 레이어 보여주기
+                }
+            }
+
+            // LX맵(연속지적도) WMS
+            function wmsSample() {
+                var wmsLayer = new vw.Layers();
+                wmsSource = new vw.source.TileWMS();
+                wmsSource.setParams("tilesize=256");
+                wmsSource.setLayers("lt_c_landinfobasemap");
+                wmsSource.setStyles("lt_c_landinfobasemap");
+                wmsSource.setFormat("image/png");
+                wmsSource.setUrl("https://api.vworld.kr/req/wms?Key=CBDA8338-FEF2-34AE-9B04-D31B3597153F&");
+                var wmsTile = new vw.layer.Tile(wmsSource);
+                wmsLayer.add(wmsTile);
+            }
+
+            const viewer = ws3d.viewer;
+
+            vw.ws3dInitCallBack = function () { //3D지도가 로드된 후 실행되는 함수
+                //map.getLayerAllElement();
+
+                map.getElementById('poi_base').hide();
+
+                
+                /** 3D모델을 추가하는 방법 step 1
+                
+                var modelEntity = viewer.entities.add({
+                    name : '아파트',
+                    position : Cesium.Cartesian3.fromDegrees(127.01923256131714, 37.03564822859657), // 좌표는 지오코더API 등을 통해 얻어온 좌표를 사용하면 됩니다.
+                    model : {
+                        uri : './아파트.glb',
+                        scale : 1.0
+                    }
+                });
+                
+                viewer.zoomTo(modelEntity);
+                */
+                /**
+                 * 3D모델 반복문(for)로 추가하는 방법 step 2
+                 */
+                
+                local = [
+                    [127.0183562336405, 37.03524812928357],
+                    [127.0193888841112, 37.035849779909654],
+                    [127.02031424622122, 37.03647711872429],
+                    [127.01912602762772, 37.03456082860656],
+                    [127.0200808940369, 37.035288810436484],
+                    [127.02108404020844, 37.035826227839195]
+                ]
+
+                for (var i = 0; i < local.length; i++) {
+                    var modelEntity = viewer.entities.add({
+                        name : '아파트 '+[i],
+                        description : '아파트 '+[i]+' 입니다.',
+                        position : Cesium.Cartesian3.fromDegrees(local[i][0], local[i][1]),
+                        model : {
+                            uri : './아파트.glb',
+                            scale : 1.0
+                        }
+                    });
+                    viewer.zoomTo(modelEntity);
+                }
+                
+
+
+            }
+
+            /**
+             * 3D모델을 클릭했을 때 이벤트 발생
+            */
+            var handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
+            handler.setInputAction(function (click) {
+                var pickedObject = viewer.scene.pick(click.position);
+                if (Cesium.defined(pickedObject) && pickedObject.id) {
+                    var entity = pickedObject.id;
+                    alert(entity.name + '\n' + entity.description); // \n 을 사용하면 줄바꿈이 됩니다.
+                }
+            }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+        </script>
+    </body>
+</html>

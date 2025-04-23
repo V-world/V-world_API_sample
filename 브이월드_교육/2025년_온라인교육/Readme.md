@@ -23,7 +23,11 @@
 
 [📥 1. 공간정보 오픈플랫폼 활용 교육(1차)](https://drive.google.com/file/d/1s84-QXfpqPUn2uVFkOITQrHbZhrTf1zV/view?usp=drive_link)</br>
 [📥 2. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/1V-WcyNWiq2T_Nvg9RSSvxlyByzIEbD8K/view?usp=drive_link)</br>
-📥 소스는 교육 이후 업로드 예정
+</br>
+📥 교육 소스</br>
+[- 2차시 Python](./2차시\)%20WMTS%20API%20실습.py)</br>
+[- 3차시 HTML](./3차시\)%20WebGL3D_API_v3.0_실습.html)</br>
+[- 아파트 모델](./아파트.glb)</br>
 
 ## 사전 준비
 
