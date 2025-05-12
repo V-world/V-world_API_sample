@@ -1,6 +1,9 @@
-# 2025년 온라인 교육
+# 2025년 브이월드 교육
 
-🙌 교육 목표 : 브이월드 API를 활용하여 2D/3D 지도와 주제도를 표출함으로 국가공간정보 활용도를 높일 수 있다.
+🙌 교육 목표 : 
+ - (활용기초) 공간정보와 브이월드의 개념을 알고 서비스 기능을 활용할 수 있다.
+ - (분석실습) 브이월드 데이터를 활용하여 공간정보를 시각화하고 분석할 수 있다.
+ - (개발실습) 브이월드 API를 활용하여 2D/3D 지도와 주제도를 표출할 수 있다.
 
 ## 목차
 
@@ -21,8 +24,9 @@
 
 ## 교육자료 다운로드
 
-[📥 1. 공간정보 오픈플랫폼 활용 교육(1차)](https://drive.google.com/file/d/1s84-QXfpqPUn2uVFkOITQrHbZhrTf1zV/view?usp=drive_link)</br>
-[📥 2. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/1V-WcyNWiq2T_Nvg9RSSvxlyByzIEbD8K/view?usp=drive_link)</br>
+[📥 1. 공간정보 오픈플랫폼 활용 교육](https://drive.google.com/file/d/1kZJW_1euz6V6wstTtTA2ao1PRMnio6hz/view?usp=drive_link)</br>
+[📥 2. 공간정보 오픈플랫폼 분석 교육](https://drive.google.com/file/d/1QahOxakA1COgRXrxKVrNiNu3J6ftwC7j/view?usp=drive_link)</br>
+[📥 2. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/1UljsWd_FrkX0Jje-Zxetr_a_CWu0zBuU/view?usp=drive_link)</br>
 </br>
 📥 교육 소스</br>
 [- 2차시 Python](./2차시\)%20WMTS%20API%20실습.py)</br>
