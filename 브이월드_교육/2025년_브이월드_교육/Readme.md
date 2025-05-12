@@ -26,12 +26,10 @@
 
 [📥 1. 공간정보 오픈플랫폼 활용 교육](https://drive.google.com/file/d/1kZJW_1euz6V6wstTtTA2ao1PRMnio6hz/view?usp=drive_link)</br>
 [📥 2. 공간정보 오픈플랫폼 분석 교육](https://drive.google.com/file/d/1QahOxakA1COgRXrxKVrNiNu3J6ftwC7j/view?usp=drive_link)</br>
-[📥 2. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/1UljsWd_FrkX0Jje-Zxetr_a_CWu0zBuU/view?usp=drive_link)</br>
+[📥 2-1. 공간정보 오픈플랫폼 분석 교육](https://drive.google.com/file/d/1QahOxakA1COgRXrxKVrNiNu3J6ftwC7j/view?usp=drive_link)</br>
+[📥 3. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/1UljsWd_FrkX0Jje-Zxetr_a_CWu0zBuU/view?usp=drive_link)</br>
+[📥 3-1. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/1UljsWd_FrkX0Jje-Zxetr_a_CWu0zBuU/view?usp=drive_link)</br>
 </br>
-📥 교육 소스</br>
-[- 2차시 Python](./2차시\)%20WMTS%20API%20실습.py)</br>
-[- 3차시 HTML](./3차시\)%20WebGL3D_API_v3.0_실습.html)</br>
-[- 아파트 모델](./아파트.glb)</br>
 
 ## 사전 준비
 
@@ -40,24 +38,24 @@
 
 [📥 1. QGIS 다운로드](https://www.qgis.org/download/)
 
-- QGIS 설치
+- QGIS 설치(분석교육, 개발교육)
 ![image](./images/QGIS%20(3).png)
 ![image](./images/QGIS%20(2).png)
 ![image](./images/QGIS%20(1).png)
 
 [📥 2. Python 다운로드](https://www.python.org/downloads/)
 
-- Python 설치
+- Python 설치(개발교육)
 ![image](./images/Python.JPG)
 
 [📥 3. Visual Studio Code 다운로드](https://code.visualstudio.com/)
 
-- Visual Studio Code 설치
+- Visual Studio Code 설치(개발교육)
 ![image](./images/VSCode%20(1).JPG)
 ![image](./images/VSCode%20(2).JPG)
 ![image](./images/VSCode%20(3).JPG)
 
-## 2차시 교육
+## 공간정보 오픈플랫폼 개발 교육
 
 ### folium 불러오기
 
