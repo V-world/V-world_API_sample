@@ -36,21 +36,21 @@
 - 깃허브 제한사항으로 해당 링크 클릭 시 새 창으로 열리지 않기 때문에 "링크를 마우스 우클릭" 하여 열기 권장합니다.
 </br>
 
-[📥 1. QGIS 다운로드](https://www.qgis.org/download/)
+[📥 1. QGIS 다운로드(분석교육, 개발교육)](https://www.qgis.org/download/)
 
-- QGIS 설치(분석교육, 개발교육)
+- QGIS 설치
 ![image](./images/QGIS%20(3).png)
 ![image](./images/QGIS%20(2).png)
 ![image](./images/QGIS%20(1).png)
 
-[📥 2. Python 다운로드](https://www.python.org/downloads/)
+[📥 2. Python 다운로드(개발교육)](https://www.python.org/downloads/)
 
-- Python 설치(개발교육)
+- Python 설치
 ![image](./images/Python.JPG)
 
-[📥 3. Visual Studio Code 다운로드](https://code.visualstudio.com/)
+[📥 3. Visual Studio Code 다운로드(개발교육)](https://code.visualstudio.com/)
 
-- Visual Studio Code 설치(개발교육)
+- Visual Studio Code 설치
 ![image](./images/VSCode%20(1).JPG)
 ![image](./images/VSCode%20(2).JPG)
 ![image](./images/VSCode%20(3).JPG)
