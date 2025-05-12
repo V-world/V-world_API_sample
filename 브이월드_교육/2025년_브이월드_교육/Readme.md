@@ -28,7 +28,7 @@
 [📥 2. 공간정보 오픈플랫폼 분석 교육](https://drive.google.com/file/d/1QahOxakA1COgRXrxKVrNiNu3J6ftwC7j/view?usp=drive_link)</br>
 [📥 2-1. 공간정보 오픈플랫폼 분석 교육 실습자료](https://drive.google.com/file/d/1zoSzX598Efn0ue0a9FsKb9IuSD3JMzlq/view?usp=drive_link)</br>
 [📥 3. 공간정보 오픈플랫폼 개발 교육](https://drive.google.com/file/d/1UljsWd_FrkX0Jje-Zxetr_a_CWu0zBuU/view?usp=drive_link)</br>
-[📥 3-1. 공간정보 오픈플랫폼 개발 교육 실습자료](https://drive.google.com/file/d/1UljsWd_FrkX0Jje-Zxetr_a_CWu0zBuU/view?usp=drive_link)</br>
+[📥 3-1. 공간정보 오픈플랫폼 개발 교육 실습자료](https://drive.google.com/file/d/1kcUkDUdGXmDMkgXT3DQr2rp6PoD6WY4s/view?usp=drive_link)</br>
 </br>
 
 ## 사전 준비
