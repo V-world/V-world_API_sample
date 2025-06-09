@@ -24,8 +24,8 @@
 
 ## 교육자료 다운로드
 
-[📥 1. 공간정보 오픈플랫폼 활용 교육](https://drive.google.com/file/d/1gvq5l1gpp22QZ1vjFiyKDJU3Jj3Y34Jz/view?usp=drive_link)</br>
-[📥 2. 공간정보 오픈플랫폼 분석 교육](https://drive.google.com/file/d/1PNQkU91c6DP4l2nXk9JdHTAcb2MmJ0ub/view?usp=drive_link)</br>
+[📥 1. 공간정보 오픈플랫폼 활용 교육](https://drive.google.com/file/d/1lDWQIdzm72xSf4-Ox8n50lyOYqfCygmW/view?usp=drive_link)</br>
+[📥 2. 공간정보 오픈플랫폼 분석 교육](https://drive.google.com/file/d/1IOifMBKHXqhghEYD9HJxUrbbjt7-XzY4/view?usp=drive_link)</br>
 [📥 2-1. 공간정보 오픈플랫폼 분석 교육 실습자료](https://drive.google.com/file/d/127_uIPT0hnV9j-UfhI6Iw5dCrjR79OJs/view?usp=drive_link)</br>
 [📥 3. 공간정보 오픈플랫폼 개발 교육](https://drive.google.com/file/d/1UljsWd_FrkX0Jje-Zxetr_a_CWu0zBuU/view?usp=drive_link)</br>
 [📥 3-1. 공간정보 오픈플랫폼 개발 교육 실습자료](https://drive.google.com/file/d/1kcUkDUdGXmDMkgXT3DQr2rp6PoD6WY4s/view?usp=drive_link)</br>
