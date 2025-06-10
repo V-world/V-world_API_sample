@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<meta name="robots" content="noindex">
+<html>
+<head>
+<script src="https://openlayers.org/en/v5.3.0/build/ol.js"></script>
+<link rel="stylesheet" 	href="https://openlayers.org/en/v5.3.0/css/ol.css" type="text/css">
+
+<meta charset="UTF-8">
+<title>브이월드 WMS API FILTER</title>
+
+<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+<style type="text/css">
+.ol-mycontrol {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    padding: 4px;
+    margin-left: 10px;
+    position: block;
+    width:55px;
+    top: 5px;
+    left:40px;
+}
+.ol-mycontrol button {
+    float:left;
+}
+.ol-mycontrol button.on {
+    background-color:rgba(124,60,55,.5);
+}
+</style>
+
+</head>
+<body>
+	<div style="float: left;">	</div>
+	<div id="map" style="float: clear; width: 800px; height: 500px;" ></div>
+	<div><p>- 브이월드 WMS 레이어 / 범례 표출을 위한 SLBODY 사용</p></div>
+	<script>
+	
+	var VworldBase,VworldSatellite;
+	var attr = '&copy; <a href="http://vworld.kr">vworld</a>';
+	
+    var VworldBase = new ol.source.XYZ({
+        url: 'https://api.vworld.kr/req/wmts/1.0.0/CEB52025-E065-364C-9DBA-44880E3B02B8/Base/{z}/{y}/{x}.png'
+        ,attributions : attr
+	}); // 기본지도 타일
+      
+	var VworldSatellite = new ol.source.XYZ({
+		url: 'https://api.vworld.kr/req/wmts/1.0.0/CEB52025-E065-364C-9DBA-44880E3B02B8/Satellite/{z}/{y}/{x}.jpeg'
+		,attributions : attr
+	}); //항공사진 레이어 타일
+	
+	var base_button = document.createElement('button');
+	base_button.innerHTML = 'B';
+	var sate_button = document.createElement('button');
+	sate_button.innerHTML = 'S';
+    var element = document.createElement('div');
+    element.className = 'rotate-north ol-unselectable ol-control ol-mycontrol';
+    
+    base_button.onclick=function(){
+        map.getLayers().forEach(function(layer){
+			if(layer.get("name")=="vworld"){
+				layer.setSource(VworldBase)
+			}
+	    })
+    }
+    sate_button.onclick=function(){
+        map.getLayers().forEach(function(layer){
+			if(layer.get("name")=="vworld"){
+				layer.setSource(VworldSatellite)
+			}
+	    })
+    }
+    
+    element.appendChild(base_button);
+    element.appendChild(sate_button);
+    
+    var layerControl = new ol.control.Control({element: element});
+       
+	map = new ol.Map({
+		controls: ol.control.defaults().extend([
+			layerControl,new ol.control.OverviewMap(),new ol.control.ZoomSlider()
+		]),
+		layers: [
+			
+			new ol.layer.Tile({
+				source: VworldBase,
+				name:"vworld"
+			})
+		],
+		target: 'map',
+		view: new ol.View({
+			center: [14184832, 4469008],
+			zoom: 14,
+			minZoom : 0,
+			maxZoom : 21
+		})
+	});
+
+	// WMS API FILTER - SLDBODY 부분
+	var sldbody = `<StyledLayerDescriptor xmlns="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0.0" xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd">
+	<NamedLayer>
+	<Name>sop:lt_c_agrixue101</Name>
+	<UserStyle>
+	<Name>Default Styler</Name>
+	<Title>농업진흥지역도</Title>
+	<Abstract>농업진흥지역도</Abstract>
+	<FeatureTypeStyle>
+	<Name>name</Name>
+
+	<Rule>
+		<Title>농업진흥지역도</Title>
+		<Abstract>농업진흥지역도</Abstract>
+		<TextSymbolizer>
+			<Label>
+			<ogc:PropertyName>uname</ogc:PropertyName>
+			</Label>
+			<Font>
+			<CssParameter name="font-family">나눔고딕</CssParameter>
+			<CssParameter name="font-size">10</CssParameter>
+			<CssParameter name="font-weight">bold</CssParameter>
+			</Font>
+			<LabelPlacement>
+			<PointPlacement>
+				<AnchorPoint>
+				<AnchorPointX>0</AnchorPointX>
+				<AnchorPointY>0.5</AnchorPointY>
+				</AnchorPoint>
+			</PointPlacement>
+			</LabelPlacement>
+			<Fill>
+			<CssParameter name="fill">#323232</CssParameter>
+			</Fill>
+			<VendorOption name="maxDisplacement">1</VendorOption>
+		</TextSymbolizer>
+	</Rule>
+
+	</FeatureTypeStyle>
+	</UserStyle>
+	</NamedLayer>
+	</StyledLayerDescriptor>`;
+
+
+	var wms_title = '농업진흥지역도';
+	var wms_val = 'lt_c_agrixue101';
+	wms_val = wms_val.toLowerCase();
+
+	var wms_tile = new ol.layer.Tile({
+		name : "WMS_LAYER",
+		source : new ol.source.TileWMS({
+			url : "https://api.vworld.kr/req/wms?",
+			params : {
+				LAYERS : wms_val,
+				STYLES : wms_val,
+				CRS : "EPSG:900913",
+				apikey : "CEB52025-E065-364C-9DBA-44880E3B02B8",
+				DOMAIN : "http://loacalhost:8080",
+				title : wms_title,
+				FORMAT : "image/png"
+			}
+		})
+	});
+	map.addLayer(wms_tile);	// 브이월드 기본 스타일의 WMS 레이어 호출
+
+	var wms_text = new ol.layer.Tile({
+		name : "WMS_LAYER",
+		source : new ol.source.TileWMS({
+			url : "https://api.vworld.kr/req/wms?",
+			params : {
+				LAYERS : wms_val,
+				STYLES : wms_val,
+				CRS : "EPSG:900913",
+				apikey : "CEB52025-E065-364C-9DBA-44880E3B02B8",
+				DOMAIN : "http://loacalhost:8080",
+				title : wms_title,
+				FORMAT : "image/png"
+				,SLD_BODY : sldbody // 범례(uname) 표출을 위한 설정 - TextSymbolizer
+			}
+		})
+	});
+	map.addLayer(wms_text);	
+
+	map.getView().setZoom(12);
+	
+	function movexy(){
+		map.getView().setCenter([x,y])
+		map.getView().setZoom(13);
+	}
+
+    </script>
+</body>
+</html>
