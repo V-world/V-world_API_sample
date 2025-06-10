@@ -1,19 +1,22 @@
-# 2025년 온라인 교육
+# 2025년 브이월드 교육
 
-🙌 교육 목표 : 브이월드 API를 활용하여 2D/3D 지도와 주제도를 표출함으로 국가공간정보 활용도를 높일 수 있다.
+🙌 교육 목표 : 
+ - (활용기초) 공간정보와 브이월드의 개념을 알고 서비스 기능을 활용할 수 있다.
+ - (분석실습) 브이월드 데이터를 활용하여 공간정보를 시각화하고 분석할 수 있다.
+ - (개발실습) 브이월드 API를 활용하여 2D/3D 지도와 주제도를 표출할 수 있다.
 
 ## 목차
 
 1. [교육자료 다운로드](#교육자료-다운로드)
-2. [🔥 사전 준비(개발교육 시 필수)](#사전-준비)
-3. [✌️ 2차시 교육](#2차시-교육)</br>
+2. [🔥 사전 준비(분석교육, 개발교육 시 필수)](#사전-준비)
+3. [✌️ 개발교육 2차시](#2차시-교육)</br>
     3-1. [folium 불러오기](#folium-불러오기)</br>
     3-2. [브이월드 배경지도 불러오기](#브이월드-배경지도-불러오기)</br>
     3-3. [WMS(LX맵) 불러오기](#wmslx맵-불러오기)</br>
     3-4. [레이어 컨트롤 기능 추가하기](#레이어-컨트롤-기능-추가하기)</br>
     3-5. [지오코딩 변수 선언](#지오코딩-변수-선언)</br>
     3-6. [지오코딩 실행](#지오코딩-실행)</br>
-4. [👌 3차시 교육](#3차시-교육)</br>
+4. [👌 개발교육 3차시](#3차시-교육)</br>
     4-1. [HTML 띄워보기](#html-띄워보기)</br>
     4-2. [3D지도 불러오기](#3d지도-불러오기)</br>
     4-3. [건물 및 주제도 레이어 불러오기](#건물-및-주제도-레이어-불러오기)</br>
@@ -21,39 +24,38 @@
 
 ## 교육자료 다운로드
 
-[📥 1. 공간정보 오픈플랫폼 활용 교육(1차)](https://drive.google.com/file/d/1s84-QXfpqPUn2uVFkOITQrHbZhrTf1zV/view?usp=drive_link)</br>
-[📥 2. 공간정보 오픈플랫폼 개발 교육(1차~3차)](https://drive.google.com/file/d/1V-WcyNWiq2T_Nvg9RSSvxlyByzIEbD8K/view?usp=drive_link)</br>
+[📥 1. 공간정보 오픈플랫폼 활용 교육](https://drive.google.com/file/d/1lDWQIdzm72xSf4-Ox8n50lyOYqfCygmW/view?usp=drive_link)</br>
+[📥 2. 공간정보 오픈플랫폼 분석 교육](https://drive.google.com/file/d/1IOifMBKHXqhghEYD9HJxUrbbjt7-XzY4/view?usp=drive_link)</br>
+[📥 2-1. 공간정보 오픈플랫폼 분석 교육 실습자료](https://drive.google.com/file/d/127_uIPT0hnV9j-UfhI6Iw5dCrjR79OJs/view?usp=drive_link)</br>
+[📥 3. 공간정보 오픈플랫폼 개발 교육](https://drive.google.com/file/d/1UljsWd_FrkX0Jje-Zxetr_a_CWu0zBuU/view?usp=drive_link)</br>
+[📥 3-1. 공간정보 오픈플랫폼 개발 교육 실습자료](https://drive.google.com/file/d/1kcUkDUdGXmDMkgXT3DQr2rp6PoD6WY4s/view?usp=drive_link)</br>
 </br>
-📥 교육 소스</br>
-[- 2차시 Python](./2차시\)%20WMTS%20API%20실습.py)</br>
-[- 3차시 HTML](./3차시\)%20WebGL3D_API_v3.0_실습.html)</br>
-[- 아파트 모델](./아파트.glb)</br>
 
 ## 사전 준비
 
 - 깃허브 제한사항으로 해당 링크 클릭 시 새 창으로 열리지 않기 때문에 "링크를 마우스 우클릭" 하여 열기 권장합니다.
 </br>
 
-[📥 1. QGIS 다운로드](https://www.qgis.org/download/)
+[📥 1. QGIS 다운로드(분석교육, 개발교육)](https://www.qgis.org/download/)
 
 - QGIS 설치
 ![image](./images/QGIS%20(3).png)
 ![image](./images/QGIS%20(2).png)
 ![image](./images/QGIS%20(1).png)
 
-[📥 2. Python 다운로드](https://www.python.org/downloads/)
+[📥 2. Python 다운로드(개발교육)](https://www.python.org/downloads/)
 
 - Python 설치
 ![image](./images/Python.JPG)
 
-[📥 3. Visual Studio Code 다운로드](https://code.visualstudio.com/)
+[📥 3. Visual Studio Code 다운로드(개발교육)](https://code.visualstudio.com/)
 
 - Visual Studio Code 설치
 ![image](./images/VSCode%20(1).JPG)
 ![image](./images/VSCode%20(2).JPG)
 ![image](./images/VSCode%20(3).JPG)
 
-## 2차시 교육
+## 공간정보 오픈플랫폼 개발 교육
 
 ### folium 불러오기
 
