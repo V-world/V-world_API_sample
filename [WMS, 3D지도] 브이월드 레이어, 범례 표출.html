@@ -6,34 +6,6 @@
         <title>VWorld WebGL 3D API 3.0 Sample</title>
         <script type="text/javascript" src="https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey=CBDA8338-FEF2-34AE-9B04-D31B3597153F"></script>
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <style type="text/css">
-            table{
-                border-collapse: separate;
-                border-spacing: 0;
-                text-align: left;
-                line-height: 1.5;
-                border-top: 1px solid #ccc;
-                border-left: 1px solid #ccc;
-                margin: 20px 10px;
-            }
-            table th{
-                width: 150px;
-                padding: 10px;
-                font-weight: bold;
-                vertical-align: top;
-                border-right: 1px solid #ccc;
-                border-bottom: 1px solid #ccc;
-                border-top: 1px solid #fff;
-                border-left: 1px solid #fff;
-                background: #eee;
-            }
-            table td{
-                padding: 10px;
-                vertical-align: top;
-                border-right: 1px solid #ccc;
-                border-bottom: 1px solid #ccc;
-            }
-        </style>
     </head>
 <body>
 	<div style="float: left;">	</div>
@@ -61,14 +33,15 @@
 
 	vw.ws3dInitCallBack = function () { //3D지도가 로드된 후 실행되는 함수
 		var wmsLayer = new vw.Layers();
-		wmsSource = new vw.source.TileWMS();
-		wmsSource.setParams("tilesize=256");
-		wmsSource.setLayers("lt_c_agrixue101");
-		wmsSource.setStyles("lt_c_agrixue101");
-		wmsSource.setFormat("image/png");
-		wmsSource.setUrl("https://api.vworld.kr/req/wms?Key=CBDA8338-FEF2-34AE-9B04-D31B3597153F&");
-		var wmsTile = new vw.layer.Tile(wmsSource);
+		wmsAgrixue101_img = new vw.source.TileWMS();
+		wmsAgrixue101_img.setParams("tilesize=256");
+		wmsAgrixue101_img.setLayers("lt_c_agrixue101");
+		wmsAgrixue101_img.setStyles("lt_c_agrixue101");
+		wmsAgrixue101_img.setFormat("image/png");
+		wmsAgrixue101_img.setUrl("https://api.vworld.kr/req/wms?Key=CBDA8338-FEF2-34AE-9B04-D31B3597153F&");
+		var wmsTile = new vw.layer.Tile(wmsAgrixue101_img);
 		wmsLayer.add(wmsTile);
+		//농업진흥지역도 레이어의 브이월드 기본 스타일 표출을 위한 호출
 		
 		const imageryProvider = new Cesium.WebMapServiceImageryProvider({
 			url : new Cesium.Resource({
@@ -131,6 +104,7 @@
 					}
 				});
 		viewer.imageryLayers.addImageryProvider(imageryProvider);
+		//농업진흥지역도 레이어의 범례(uname) 표출을 위한 SLDBODY 사용
 
 	}
 
