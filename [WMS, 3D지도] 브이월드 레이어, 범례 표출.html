@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<meta name="robots" content="noindex">
+<html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>VWorld WebGL 3D API 3.0 Sample</title>
+        <script type="text/javascript" src="https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey=CBDA8338-FEF2-34AE-9B04-D31B3597153F"></script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <style type="text/css">
+            table{
+                border-collapse: separate;
+                border-spacing: 0;
+                text-align: left;
+                line-height: 1.5;
+                border-top: 1px solid #ccc;
+                border-left: 1px solid #ccc;
+                margin: 20px 10px;
+            }
+            table th{
+                width: 150px;
+                padding: 10px;
+                font-weight: bold;
+                vertical-align: top;
+                border-right: 1px solid #ccc;
+                border-bottom: 1px solid #ccc;
+                border-top: 1px solid #fff;
+                border-left: 1px solid #fff;
+                background: #eee;
+            }
+            table td{
+                padding: 10px;
+                vertical-align: top;
+                border-right: 1px solid #ccc;
+                border-bottom: 1px solid #ccc;
+            }
+        </style>
+    </head>
+<body>
+	<div style="float: left;">	</div>
+	<div id="map" style="float: clear; width: 800px; height: 500px;" ></div>
+	<div><p>- 브이월드 WMS 레이어 / 범례 표출을 위한 SLBODY 사용</p></div>
+	<script>
+	
+	var map;
+	var options = {
+		mapId: 'map', // 지도맵 컨테이너 아이디
+		initPosition: new vw.CameraPosition(
+			new vw.CoordZ(127.01923256131714, 37.03564822859657, 1500),
+			new vw.Direction(0, -90, 0)
+		), // 초기 위치
+		logo: true, // 하단 로고 설정. true:표출, false:미표출
+		navigation: true // 오른쪽 상단 네비게이션 설정. true:표출, false:미표출
+	};
+
+	map = new vw.Map();
+	map.setOption(options);
+	map.start(); // 지도 생성
+
+
+	const viewer = ws3d.viewer;
+
+	vw.ws3dInitCallBack = function () { //3D지도가 로드된 후 실행되는 함수
+		var wmsLayer = new vw.Layers();
+		wmsSource = new vw.source.TileWMS();
+		wmsSource.setParams("tilesize=256");
+		wmsSource.setLayers("lt_c_agrixue101");
+		wmsSource.setStyles("lt_c_agrixue101");
+		wmsSource.setFormat("image/png");
+		wmsSource.setUrl("https://api.vworld.kr/req/wms?Key=CBDA8338-FEF2-34AE-9B04-D31B3597153F&");
+		var wmsTile = new vw.layer.Tile(wmsSource);
+		wmsLayer.add(wmsTile);
+		
+		const imageryProvider = new Cesium.WebMapServiceImageryProvider({
+			url : new Cesium.Resource({
+                  url : "http://api.vworld.kr/req/wms?key=CEB52025-E065-364C-9DBA-44880E3B02B8",
+                  proxy: new Cesium.DefaultProxy('https://map.vworld.kr/proxy.do?url=')
+            }),
+			layers: 'lt_c_agrixue101',
+			parameters: {
+				service: 'WMS',
+				request: 'GetMap',
+				format: 'image/png',
+				transparent: true,
+				version : '1.3.0',
+				CRS: 'EPSG:4326',
+				SLD_BODY: `<StyledLayerDescriptor xmlns="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0.0" xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd">
+							<NamedLayer>
+							<Name>sop:lt_c_agrixue101</Name>
+							<UserStyle>
+							<Name>Default Styler</Name>
+							<Title>농업진흥지역도</Title>
+							<Abstract>농업진흥지역도</Abstract>
+							<FeatureTypeStyle>
+							<Name>name</Name>
+							<Rule>
+								<Title>농업진흥지역도</Title>
+								<Abstract>농업진흥지역도</Abstract>
+								<TextSymbolizer>
+									<Label>
+										<ogc:PropertyName>uname</ogc:PropertyName>
+									</Label>
+									<Font>
+										<CssParameter name="font-family">나눔고딕</CssParameter>
+										<CssParameter name="font-size">10</CssParameter>
+										<CssParameter name="font-weight">bold</CssParameter>
+									</Font>
+									<LabelPlacement>
+									<PointPlacement>
+										<AnchorPoint>
+											<AnchorPointX>0</AnchorPointX>
+											<AnchorPointY>0.5</AnchorPointY>
+										</AnchorPoint>
+									</PointPlacement>
+									</LabelPlacement>
+									<Halo>
+										<Radius>1</Radius>
+										<Fill>
+											<CssParameter name="fill">#FFFFFF</CssParameter>
+										</Fill>
+									</Halo>
+									<Fill>
+										<CssParameter name="fill">#000000</CssParameter>
+									</Fill>
+								</TextSymbolizer>
+							</Rule>
+
+							</FeatureTypeStyle>
+							</UserStyle>
+							</NamedLayer>
+							</StyledLayerDescriptor>`
+					}
+				});
+		viewer.imageryLayers.addImageryProvider(imageryProvider);
+
+	}
+
+    </script>
+</body>
+</html>
