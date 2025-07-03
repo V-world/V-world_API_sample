@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>검색 후 해당 필지 가시화 방법</title>
+        <script type="text/javascript" src="https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey=CBDA8338-FEF2-34AE-9B04-D31B3597153F"></script>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <style type="text/css">
+            table{
+                border-collapse: separate;
+                border-spacing: 0;
+                text-align: left;
+                line-height: 1.5;
+                border-top: 1px solid #ccc;
+                border-left: 1px solid #ccc;
+                margin: 20px 10px;
+            }
+            table th{
+                width: 150px;
+                padding: 10px;
+                font-weight: bold;
+                vertical-align: top;
+                border-right: 1px solid #ccc;
+                border-bottom: 1px solid #ccc;
+                border-top: 1px solid #fff;
+                border-left: 1px solid #fff;
+                background: #eee;
+            }
+            table td{
+                padding: 10px;
+                vertical-align: top;
+                border-right: 1px solid #ccc;
+                border-bottom: 1px solid #ccc;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div style="display: flex;">
+            <!-- 맵 영역 지정 -->
+            <div style="float: left; width: 70%;">
+                <div id="vmap" style="width: 100%; height: 700px;"></div>
+                <header>
+                    <div id="searchArea">
+						<span><b>- 주소/POI 검색 &nbsp;</b></span>
+						<form id="searchForm" action="#" class="form_data" onsubmit="return false;search();">
+							<select id="typeSelect" name="type" onchange="searchSetting(this.value);" >
+								<option value="address" selected="selected">주소검색</option>
+								<option value="place">POI 검색</option>
+							</select>
+							<select name="category_select">
+								<option value="road">도로명주소</option>
+								<option value="parcel" selected="selected">지번주소</option>
+							</select>
+							<input type="hidden" name="category" value="parcel" />
+							<input type="hidden" name="request" value="search" />
+							<input type="hidden" name="apiKey" value="CBDA8338-FEF2-34AE-9B04-D31B3597153F">
+							<input type="hidden" name="crs" value="EPSG:4326" />
+							<input type="text"  id="searchValue" name="query" value="경기도 성남시 분당구 삼평동 624" style="width: 250px"/> 
+							<button onclick="javascript:search();" style="background-color:rgba(195, 222, 247, 0.753);">검색</button> 
+						</form>
+					</div>
+                </header>
+            </div>
+        </div>
+
+        <script>
+            // 지도 생성
+            var map;	
+            var options = {
+            mapId : "vmap",// 지도맵 컨테이너 아이디
+            initPosition : new vw.CameraPosition(
+                new vw.CoordZ(126.92775802528264, 37.52501881993892, 12416),  
+                new vw.Direction(0, -90, 0)
+                ), // 초기 위치
+            logo: true,	 // 하단 로고 설정. true : 표출, false : 미표출
+            navigation: true // 오른쪽 상단 네비게이션 설정. true : 표출, false : 미표출
+            };
+        
+            map = new vw.Map();   
+            map.setOption(options);
+            map.start(); // 지도 생성
+
+			const viewer = ws3d.viewer;
+        	vw.ws3dInitCallBack = function () { //3D지도가 로드된 후 실행되는 함수
+
+                var wmsLayer = new vw.Layers();
+                wmsSource = new vw.source.TileWMS();
+                wmsSource.setParams("tilesize=256");
+                wmsSource.setLayers("lp_pa_cbnd_bubun,lp_pa_cbnd_bonbun");
+                wmsSource.setStyles("lp_pa_cbnd_bubun_line,lp_pa_cbnd_bonbun_line");
+                wmsSource.setFormat("image/png");
+                wmsSource.setUrl("https://api.vworld.kr/req/wms?Key=CBDA8338-FEF2-34AE-9B04-D31B3597153F&");
+                var wmsTile = new vw.layer.Tile(wmsSource);
+                wmsLayer.add(wmsTile);
+
+            }
+
+            let searchSetting = function(thisVal){
+				console.log(thisVal);
+				if("address"== thisVal){
+					$('[name=category_select]').show();
+				}else{
+					$('[name=category_select]').hide();
+				}
+			}
+
+			let searchPolygon = null;
+
+			let search = function(){
+			
+				//검색 API 검색 설정
+				let chk = false; 
+				chk = $('[name=category_select]').is(":visible");
+				if(chk){
+					$('[name=category]').val($('[name=category_select]').val());
+				}else{
+					$('[name=category]').val("");
+				}
+
+				// jquery ajax 비동기 통신
+				$.ajax({
+					type: "get",
+					url: "http://api.vworld.kr/req/search",
+					data : $('#searchForm').serialize(),
+					dataType: 'jsonp', //cors 우회를 위해 jsonp 이용
+					async: false,
+					success: function(data) {
+						if(data.response.status =="NOT_FOUND"){
+							alert('검색결과가 없습니다.');
+						}else{
+							let mx = data.response.result.items[0].point.x*1;
+							let my = data.response.result.items[0].point.y*1;
+							move(mx,my,100); 
+						
+							var title=data.response.result.items[0].title;// map.getLayerNmElement( title ) 제어 가능
+							var pnu = data.response.result.items[0].id;
+							var parcel = data.response.result.items[0].address.parcel;
+							var road = data.response.result.items[0].address.road;
+
+							// 기존 폴리곤 제거
+							if (searchPolygon) {
+								map.removeObjectById("pnuPolygon");
+							}
+							
+							$.ajax({
+								type: "get",
+								url: "https://api.vworld.kr/req/data?key=CEB52025-E065-364C-9DBA-44880E3B02B8&domain=http://localhost:8080&service=data&version=2.0&request=getfeature&format=json&size=10&page=1&geometry=true&attribute=true&crs=EPSG:4326&data=LP_PA_CBND_BUBUN",
+								data : {attrfilter : 'pnu:=:'+pnu},
+								async: false,
+								dataType: 'jsonp',
+								success: function(data) {
+									let pnuPoly = new Array();
+									data.response.result.featureCollection.features[0].geometry.coordinates[0][0].forEach(function(i){
+										pnuPoly.push(new vw.Coord(i[0], i[1]));
+									})
+
+									var coordCol2 = new vw.Collection(pnuPoly);
+									searchPolygon = new vw.geom.Polygon(coordCol2);
+									searchPolygon.setFillColor(new vw.Color(255, 0, 0, 70));
+									searchPolygon.setWidth(1);
+									searchPolygon.setId("pnuPolygon"); 
+									searchPolygon.create();
+
+									// 이벤트 처리 함수이며, 파라미터로 클릭시 window 픽셀, ecef좌표, cartographic좌표(실제경위도), 객체정보를 인수로 받는다.
+									var eventHandler = function(windowPosition, ecefPosition, cartographic, featureInfo) {
+										
+										if ( featureInfo != null ) {
+
+											var html = `-도로명주소 : ${road}</br> -지번주소 : ${parcel}`;
+											
+											// 제목 title
+											var title = `${pnu}`;
+											//_id, _container, _title, _html, _width, _height, _x, _y
+											// 식별아이디, 탑재컨테이너, 제목, html, 레이어가로길이, 레이어세로길이, 클릭 이벤트X, 클릭 이벤트Y
+											pop = new vw.Popup("pop01", "vmap", title, html, 200, 100, windowPosition.x, windowPosition.y);
+											pop.create();
+										}           
+									}
+									searchPolygon.addEventListener(eventHandler);
+									
+								},
+								error: function(xhr, stat, err) {
+									console.log(xhr, stat, err);
+								}
+							});
+							
+						}//else 종료
+
+						
+					},
+					complete:function(){
+
+					},
+					error: function(xhr, stat, err) {}
+				});
+			}
+
+			/** 이동함수 구현
+			*/
+			let move = function(x,y,z){
+				var movePo = new vw.CoordZ(x*1,y*1,z);
+				var mPosi = new vw.CameraPosition(movePo, new vw.Direction(0,-80,0));
+				map.moveTo(mPosi);
+			}
+
+        </script>
+    </body>
+</html>
