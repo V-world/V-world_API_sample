@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>VWorld WebGL 3D API 3.0 Sample</title>
+        <script type="text/javascript" src="https://map.vworld.kr/js/webglMapInit.js.do?version=3.0&apiKey=CBDA8338-FEF2-34AE-9B04-D31B3597153F"></script>
+        <style type="text/css">
+            table{
+                border-collapse: separate;
+                border-spacing: 0;
+                text-align: left;
+                line-height: 1.5;
+                border-top: 1px solid #ccc;
+                border-left: 1px solid #ccc;
+                margin: 20px 10px;
+            }
+            table th{
+                width: 150px;
+                padding: 10px;
+                font-weight: bold;
+                vertical-align: top;
+                border-right: 1px solid #ccc;
+                border-bottom: 1px solid #ccc;
+                border-top: 1px solid #fff;
+                border-left: 1px solid #fff;
+                background: #eee;
+            }
+            table td{
+                padding: 10px;
+                vertical-align: top;
+                border-right: 1px solid #ccc;
+                border-bottom: 1px solid #ccc;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div style="display: flex;">
+            <!-- 맵 영역 지정 -->
+            <div style="float: left; width: 70%;">
+                <div id="vmap" style="width: 100%; height: 700px;"></div>
+            </div>
+            <div style="float: left; width: 40%;">
+                <header>
+                    <table id="wlayerList">
+                        <tr>
+                            <th>건물 레이어 On/Off</th>
+                            <td><input type="checkbox" onclick="checkLayer(this, 'facility_build_lod3')" checked="checked"></td>
+                        </tr>
+                        <tr>
+                            <th>WMS LX맵(편집지적도) 레이어</th>	
+                            <td><input type="button" value="WMS/WFS 조회" onclick="wmsSample();"/></td>
+                        </tr>
+                    </table>
+                </header>
+                <div style="height: 700px; padding: 20px;">
+                    <form id="wfsForm">
+                        <input type="hidden" name="key" value="CBDA8338-FEF2-34AE-9B04-D31B3597153F">
+                        <input type="hidden" name="SERVICE" value="WFS">
+                        <input type="hidden" name="version" value="1.1.0">
+                        <input type="hidden" name="request" value="GetFeature">
+                        <input type="hidden" name="TYPENAME" value="lt_c_landinfobasemap">
+                        <input type="hidden" name="OUTPUT" value="text/javascript">
+                        <input type="hidden" name="SRSNAME" value="EPSG:4326">
+                        <input type="hidden" name="BBOX" value="">
+                    </form>
+                    <div>
+                        <span><b>* 선택한 LX맵(편집지적도) WFS *</b></span><div><ul id="resultDiv"></ul></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // 지도 생성
+            var map;	
+            var options = {
+            mapId : "vmap",// 지도맵 컨테이너 아이디
+            initPosition : new vw.CameraPosition(
+                new vw.CoordZ(126.802875, 37.380142, 300),  
+                new vw.Direction(0, -75, 0)
+                ), // 초기 위치
+            logo: true,	 // 하단 로고 설정. true : 표출, false : 미표출
+            navigation: true // 오른쪽 상단 네비게이션 설정. true : 표출, false : 미표출
+            };
+        
+            map = new vw.Map();   
+            map.setOption(options);
+            map.start(); // 지도 생성
+
+            const viewer = ws3d.viewer;
+
+            vw.ws3dInitCallBack = function () { //3D지도가 로드된 후 실행되는 함수
+                map.getElementById('facility_build').hide();
+                map.getElementById('facility_build_lod3').show();
+            }
+
+            // 건물 레이어 ON/OFF
+            var checkLayer = function(c,name){ //레이어 제어
+                if($(c).is(":checked")==false) {
+                    map.getLayerElement(name).hide() //레이어 하이드
+                } else {
+                    map.getLayerElement(name).show() // 레이어 보여주기
+                }
+            }
+
+            var chk = 0;
+
+            // LX맵(연속지적도) WMS
+            function wmsSample() {
+                var wmsLayer = new vw.Layers();
+                wmsSource = new vw.source.TileWMS();
+                wmsSource.setParams("tilesize=256");
+                wmsSource.setLayers("lt_c_landinfobasemap");
+                wmsSource.setStyles("lt_c_landinfobasemap");
+                wmsSource.setFormat("image/png");
+                wmsSource.setUrl("https://api.vworld.kr/req/wms?Key=CBDA8338-FEF2-34AE-9B04-D31B3597153F&");
+                var wmsTile = new vw.layer.Tile(wmsSource);
+                wmsLayer.add(wmsTile);
+
+                chk = 1;
+
+                map.onClick.addEventListener(wfsEvent);
+            }
+
+            //대략적인 마우스 클릭 크기에 맞는 BBOX 영역 계산
+            var getBuffer = function(x,y){
+                position = map.getCurrentPosition().position
+                // var x = position.x
+                // var y = position.y
+                var z = position.z
+
+                //111,000KM  1도 단위
+                var m = 1/(111000/z*1.48*50);
+                var h = 1/(111000/z*1.85*50);
+
+                return [m,h];
+            }
+
+            // LX맵(연속지적도) WFS
+            var wfsEvent = function(windowPosition, ecefPosition, cartographic, featureInfo, event) {
+                var mh = getBuffer(cartographic.longitudeDD,cartographic.latitudeDD);
+
+                let min = [cartographic.longitudeDD-mh[0],cartographic.latitudeDD-mh[1]]
+                let max = [cartographic.longitudeDD+mh[0],cartographic.latitudeDD+mh[1]]
+                let box = min[0]+","+min[1]+","+max[0]+","+max[1]
+
+                $('#wfsForm > [name=BBOX]').val(box);	
+                
+                $.ajax({
+                    type: "get",
+                    url: "https://api.vworld.kr/req/wfs",
+                    data : $('#wfsForm').serialize(),
+                    dataType: 'jsonp',
+                    async: false,
+                    jsonpCallback:"parseResponse",
+                    success: function(data) {
+                        var resultHtml = "";
+                        if(data.totalFeatures == 0){
+                            alert("검색결과가 없습니다.");
+                        }else{
+                            if(chk != 0){
+                                var data = data.features[0].properties;
+                                console.log(data);
+                                let resultHtml="";
+                                resultHtml+="<li> - 필지번호(pnu) : "+data.pnu+"</li>";
+                                resultHtml+="<li> - 시도명(sido_nm) : "+data.sido_nm+"</li>";
+                                resultHtml+="<li> - 시군구명(sgg_nm) : "+data.sgg_nm+"</li>";
+                                resultHtml+="<li> - 읍면동명(emd_nm) : "+data.emd_nm+"</li>";
+                                resultHtml+="<li> - 리명(ri_nm) : "+data.ri_nm+"</li>";
+                                resultHtml+="<li> - 지번(jibun) : "+data.jibun+"</li>";
+                                resultHtml+="<li> - 지목(jimok) : "+data.jimok+"</li>";
+                                resultHtml+="<li> - 소유지명(owner_nm) : "+data.owner_nm+"</li>";
+
+                                $('#resultDiv').html(resultHtml);
+                            }
+                            
+                        }//else 종료
+                    },
+                    
+                    error: function(xhr, stat, err) {}
+                });
+            }
+
+        </script>
+    </body>
+</html>
