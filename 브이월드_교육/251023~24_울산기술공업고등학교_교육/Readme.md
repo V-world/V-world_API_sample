@@ -17,6 +17,7 @@
 [📥 3-2. 공간정보 오픈플랫폼 개발 교육](https://drive.google.com/file/d/1irfLJdG_v3SuDF70OAFrFP6TK9y1Oo-c/view?usp=drive_link)</br>
 [📥 3-3. 공간정보 오픈플랫폼 개발 교육](https://drive.google.com/file/d/1mnf-eb7jWBNTmezRFdVUZyjlFDMOBIBn/view?usp=drive_link)</br>
 [📥 3-4. 공간정보 오픈플랫폼 개발 교육](https://drive.google.com/file/d/1nRwhSv93MAYiBQP-fBUpyJbtV9sz6M5W/view?usp=drive_link)</br>
+[📥 공간정보 오픈플랫폼 개발 실습자료](https://github.com/V-world/V-world_API_sample/tree/master/%EB%B8%8C%EC%9D%B4%EC%9B%94%EB%93%9C_%EA%B5%90%EC%9C%A1/2025%EB%85%84_%EB%B8%8C%EC%9D%B4%EC%9B%94%EB%93%9C_%EA%B0%9C%EB%B0%9C%EA%B5%90%EC%9C%A1)</br>
 </br>
 
 ## 사전 준비
