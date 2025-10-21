@@ -8,11 +8,14 @@
 
 ## 교육자료 다운로드
 
+- 공간정보 오픈플랫폼(브이월드) 서비스 활용</br>
 [📥 1. 공간정보 오픈플랫폼 활용 교육](https://drive.google.com/file/d/1t9CSjI5LIheG2iEVwSHPr0_SW2e0nrfU/view?usp=drive_link)</br>
 [📥 브이월드 활용 가이드북(하이라이트)](https://drive.google.com/file/d/1QyfZe4w1F_2jTrZahCmDbL2MWQ71bisT/view?usp=drive_link)</br>
 [📥 브이월드 활용 가이드북](https://drive.google.com/file/d/1-zpUVH5NmG_3doAR9zR75waDBKb1Q3Go/view?usp=drive_link)</br>
 [📥 공간정보 오픈플랫폼 DT3차 고도화](https://drive.google.com/file/d/1iZeS1IYReb1EoS9eSOMdgcsd7wGK0qhL/view?usp=drive_link)</br></br>
+- 공간정보 오픈플랫폼(브이월드) 시각화 실습</br>
 [📥 2. 공간정보 오픈플랫폼 시각화 교육](https://drive.google.com/file/d/1h4JwYaSmWA1dmaYAhoNKfEvDEybQ8d5Z/view?usp=drive_link)</br></br>
+- 공간정보 오픈플랫폼(브이월드) 서비스 개발</br>
 [📥 3-1. 공간정보 오픈플랫폼 개발 교육](https://drive.google.com/file/d/1NtOagaSVYszPYeOMqDn-KZ2bs42s32qF/view?usp=drive_link)</br>
 [📥 3-2. 공간정보 오픈플랫폼 개발 교육](https://drive.google.com/file/d/1irfLJdG_v3SuDF70OAFrFP6TK9y1Oo-c/view?usp=drive_link)</br>
 [📥 3-3. 공간정보 오픈플랫폼 개발 교육](https://drive.google.com/file/d/1mnf-eb7jWBNTmezRFdVUZyjlFDMOBIBn/view?usp=drive_link)</br>
