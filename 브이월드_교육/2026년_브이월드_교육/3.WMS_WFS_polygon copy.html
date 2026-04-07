@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js"></script>
+<link rel="stylesheet" href="https://openlayers.org/en/v5.3.0/css/ol.css" type="text/css">
+<script src="https://openlayers.org/en/v5.3.0/build/ol.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+<!--
+<link rel="stylesheet" href="../js/ol.css" type="text/css">
+<script src="../js/ol.js"></script>
+
+https://openlayers.org/en/v6.4.3/build/ol.js
+https://openlayers.org/en/v5.3.0/build/ol.js
+https://openlayers.org/en/v4.6.5/build/ol.js
+https://openlayers.org/en/v3.20.1/build/ol.js
+
+https://openlayers.org/en/v6.4.3/css/ol.css
+https://openlayers.org/en/v5.3.0/css/ol.css
+https://openlayers.org/en/v4.6.5/css/ol.css
+https://openlayers.org/en/v3.20.1/css/ol.css
+-->
+<meta charset="UTF-8">
+<title>WMS API / WFS API</title>
+</head>
+
+<body>
+<div> 좌표계 프로젝션 설정
+	<select onchange="updateViewProjection(this.value);">
+		<option value="3857">EPSG:3857</option>
+		<option value="4326">EPSG:4326</option>
+		<option value="4019">EPSG:4019</option>
+		<option value="5179">EPSG:5179</option>
+		<option value="5180">EPSG:5180</option>
+		<option value="5181">EPSG:5181</option>
+		<option value="5182">EPSG:5182</option>
+		<option value="5183">EPSG:5183</option>
+		<option value="5184">EPSG:5184</option>
+		<option value="5185">EPSG:5185</option>   
+		<option value="5186">EPSG:5186</option>
+		<option value="5187">EPSG:5187</option>
+		<option value="5188">EPSG:5188</option>
+	</select>
+
+	<select id="select_wms">
+		<option>선택</option>
+		
+		<option value='lt_c_spbd'>도로명주소건물</option>
+		<option value='lt_l_sprd'>도로명주소도로</option>
+		<option value='lt_c_bldginfo'>건물조회</option>
+		<option value='LT_C_DGMAINBIZ'>주요상권</option>
+		<option value='LP_PA_CBND_BUBUN'>지적도</option>
+		<option value='LT_C_KFDRSSIGUGRADE'>산불위험예측지도</option>
+		<option value='LT_C_UP201'>재해위험지구</option>
+		<option value='LT_P_EDRSE002'>지진대피소</option>
+		<option value='LT_P_ETQSHELTER'>지진해일대피소</option>
+		<option value='LT_P_MGPRTFD'>기타보호시설</option>
+		<option value='LT_P_MGPRTFB'>노인복지시설</option>
+		<option value='LT_P_MGPRTFC'>아동복지시설</option>
+		<option value='LT_P_MGPRTFA'>아동안전지킴이집</option>
+		<option value='LT_C_TDWAREA'>보행우선구역</option>
+		<option value='LT_C_USFSFFB'>소방서관할구역</option>
+		<option value='LT_C_UO301'>문화재보호도</option>
+		<option value='LT_C_UO501'>전통사찰보존</option>
+		<option value='LT_L_FRSTCLIMB,LT_P_CLIMBALL'>등산로</option>
+		<option value='LT_L_TRKROAD,LT_P_TRKROAD'>산책로</option>
+		<option value='LT_L_BYCLINK'>자전거길</option>
+		<option value='LT_P_BYCRACKS'>자전거보관소</option>
+		<option value='LT_P_MOCTNODE'>교통노드</option>
+		<option value='LT_L_MOCTLINK'>교통링크</option>
+		<option value='lt_l_n3a0020000'>도로중심선</option>
+		<option value='LT_L_AISROUTEU'>제한고도</option>
+		<option value='LT_L_AISPATH'>항공로</option>
+		<option value='LT_C_AISALTC'>경계구역</option>
+		<option value='LT_C_AISRFLC'>공중급유구역</option>
+		<option value='LT_C_AISACMC'>공중전투기동훈련장</option>
+		<option value='LT_C_AISCTRC'>관제권</option>
+		<option value='LT_C_AISMOAC'>군작전구역</option>
+		<option value='LT_C_AISADZC'>방공식별구역</option>
+		<option value='LT_C_AISPRHC'>비행금지구역</option>
+		<option value='LT_C_AISATZC'>비행장교통구역</option>
+		<option value='LT_C_AISFIRC'>비행정보구역</option>
+		<option value='LT_C_AISRESC'>비행제한구역</option>
+		<option value='LT_C_AISDNGC'>위험구역</option>
+		<option value='LT_C_AISTMAC'>접근관제구역</option>
+		<option value='LT_C_AISCATC'>훈련구역</option>
+		<option value='LT_L_AISSEARCHL,LT_P_AISSEARCHP'>수색비행장비행구역</option>
+		<option value='LT_L_AISVFRPATH,LT_P_AISVFRPATH'>시계비행로</option>
+		<option value='LT_L_AISCORRID_YS,LT_L_AISCORRID_GJ,LT_P_AISCORRID_YS,LT_P_AISCORRID_GJ'>한강회랑</option>
+		<option value='LT_P_AISHCSTRIP'>헬기장</option>
+		<option value='LT_P_UTISCCTV'>교통CCTV</option>
+		<option value='LT_C_DAMDAN'>단지경계</option>
+		<option value='LT_C_DAMYOJ'>단지시설용지</option>
+		<option value='LT_C_DAMYOD'>단지용도지역</option>
+		<option value='LT_C_DAMYUCH'>단지유치업종</option>
+		<option value='LT_C_ASITSOILDRA'>배수등급</option>
+		<option value='LT_C_ASITDEEPSOIL'>심토토성</option>
+		<option value='LT_C_ASITSOILDEP'>유효토심</option>
+		<option value='LT_C_ASITSURSTON'>자갈함량</option>
+		<option value='LT_P_SGISGOLF'>골프장현황도</option>
+		<option value='LT_P_SGISGWCHG'>지하수측정망(오염우려지역)</option>
+		<option value='LT_C_WKMBBSN'>대권역</option>
+		<option value='LT_C_WKMMBSN'>중권역</option>
+		<option value='LT_C_WKMSBSN'>표준권역</option>
+		<option value='LT_C_WKMSTRM'>하천망</option>
+		<option value='LT_P_WEISPLAFACE'>기타공동처리시설</option>
+		<option value='LT_P_WEISPLAFACA'>농공단지처리시설</option>
+		<option value='LT_P_WEISPLAFACV'>마을하수도</option>
+		<option value='LT_P_WEISPLAFACL'>매립장침출수처리시설</option>
+		<option value='LT_C_UM710'>상수원보호</option>
+		<option value='LT_P_WEISTACCON'>수생태계조사지점</option>
+		<option value='LT_P_WEISSITETB'>수질자동측정망측정지점</option>
+		<option value='LT_P_WEISSITEME'>수질측정망공단배수지점</option>
+		<option value='LT_P_WEISSITEMD'>수질측정망농업용수지점</option>
+		<option value='LT_P_WEISSITEMF'>수질측정망도시관류지점</option>
+		<option value='LT_P_WEISSITEMA'>수질측정망하천수지점</option>
+		<option value='LT_P_WEISSITEMB'>수질측정망호소수지점</option>
+		<option value='LT_P_WEISPLAFACS'>축산폐수공공처리시설</option>
+		<option value='LT_P_WEISPLAFACW'>하수종말처리시설</option>
+		<option value='LT_L_GIMSFAULT'>단층</option>
+		<option value='LT_C_GIMSHYDRO'>수문지질단위</option>
+		<option value='LT_C_GIMSSTIFF'>수질다이어그램</option>
+		<option value='LT_L_GIMSEC'>전기전도도</option>
+		<option value='LT_C_GIMSLINEA'>지질구조밀도</option>
+		<option value='LT_L_GIMSLINEA'>지질구조선</option>
+		<option value='LT_L_GIMSDEPTH'>지하수등수심선</option>
+		<option value='LT_L_GIMSPOTEN'>지하수등수위선</option>
+		<option value='LT_L_GIMSDIREC'>지하수유동방향</option>
+		<option value='LT_C_GIMSSCS'>토양도</option>
+		<option value='LT_P_RIFCT'>수리시설</option>
+		<option value='LT_C_RIRSV'>저수지</option>
+		<option value='LT_C_AGRIXUE101'>농업진흥지역도</option>
+		<option value='LT_C_AGRIXUE102'>영농여건불리농지도</option>
+		<option value='LT_C_FLISFK300'>산지(보안림)</option>
+		<option value='LT_C_FLISFK100'>산지(자연휴양림)</option>
+		<option value='LT_C_FLISFK200'>산지(채종림)</option>
+		<option value='LT_C_UF602'>임업 및 산촌 진흥권역</option>
+		<option value='LT_C_FSDIFRSTS'>산림입지도</option>
+		<option value='LT_C_WGISPLTALK'>개발유도연안</option>
+		<option value='LT_C_WGISPLROW'>개발조정연안</option>
+		<option value='LT_C_WGISPLUSE'>이용연안</option>
+		<option value='LT_C_WGISPLABS'>절대보전연안</option>
+		<option value='LT_C_WGISPLJUN'>준보전연안</option>
+		<option value='LT_C_WGISRERESH'>공유수면매립3차수요조사</option>
+		<option value='LT_C_WGISREPLAN'>공유수면매립기본계획</option>
+		<option value='LT_C_WGISRECOMP'>공유수면매립준공</option>
+		<option value='LT_C_WGISIEGUG'>국가산업단지</option>
+		<option value='LT_C_WGISIENONG'>농공단지</option>
+		<option value='LT_C_WGISIEILBAN'>일반산업단지</option>
+		<option value='LT_C_WGISIEDOSI'>첨단산업단지</option>
+		<option value='LT_C_WGISFMGUL'>굴양식장</option>
+		<option value='LT_C_WGISFMKIM'>김양식장</option>
+		<option value='LT_C_WGISFMDSM'>다시마양식장</option>
+		<option value='LT_C_WGISFMMYK'>미역양식장</option>
+		<option value='LT_C_WGISFMFISH'>어류양식장</option>
+		<option value='LT_C_WGISFMJBOK'>전복양식장</option>
+		<option value='LT_C_WGISTPNEWP'>무역신항만</option>
+		<option value='LT_C_WGISTPLAND'>무역항육상구역</option>
+		<option value='LT_C_WGISTPSEA'>무역항해상구역</option>
+		<option value='LT_C_WGISCPLAND'>연안항육상구역</option>
+		<option value='LT_C_WGISCPSEA'>연안항해상구역</option>
+		<option value='LT_C_WGISARECO'>생태계경관보전지역</option>
+		<option value='LT_C_WGISARFISHER'>수산자원보호구역</option>
+		<option value='LT_C_WGISARWET'>습지보호구역</option>
+		<option value='LT_C_WGISNPGUG'>국립자연공원</option>
+		<option value='LT_C_WGISNPGUN'>군립자연공원</option>
+		<option value='LT_C_WGISNPDO'>도립자연공원</option>
+		<option value='LT_C_CDFRS100FRQ'>해안침수(100년빈도)</option>
+		<option value='LT_C_CDFRS150FRQ'>해안침수(150년빈도)</option>
+		<option value='LT_C_CDFRS200FRQ'>해안침수(200년빈도)</option>
+		<option value='LT_C_CDFRS050FRQ'>해안침수(50년빈도)</option>
+		<option value='LT_C_CDFRSMAXFRQ'>해안침수(최대범람)</option>
+		<option value='LT_C_TFISTIDAF,LT_P_TFISTIDAFP'>갯벌정보</option>
+		<option value='LT_C_TFISMPA'>해양보호구역</option>
+		<option value='LT_L_TOISDEPCNTAH'>해안선</option>
+		<option value='LT_P_MOGEFFACT'>여가부시설</option>
+		<option value='LT_C_ADSIDO_INFO'>광역시도</option>
+		<option value='LT_C_ADRI_INFO'>리</option>
+		<option value='LT_C_ADSIGG_INFO'>시군구</option>
+		<option value='LT_C_ADEMD_INFO'>읍면동</option>
+		<option value='LT_C_CADEMD'>행정동</option>
+		<option value='LP_PA_CBND_BUBUN'>연속지적도</option>
+		<option value='lt_c_cademd'>행정동경계</option>
+	</select>
+</div>
+<div id="map" style="float: left; width: 800px; height: 400px;"></div>
+<!-- WFS API를 호출하기 위한 데이터 셋 설정  -->
+<div style="border: 1px solid RED; width: 800px; " >
+	<DIV><span>범례</span><div id="wms_image"></div></DIV>
+</div>
+<div style="border: 1px solid RED; width: 800px; " >
+	<form id="wfsForm">
+		<input type="hidden" name="key" value="CEB52025-E065-364C-9DBA-44880E3B02B8">
+		<input type="hidden" name="domain" value="http://localhost:8080">
+		<input type="hidden" name="SERVICE" value="WFS">
+		<input type="hidden" name="version" value="1.1.0">
+		<input type="hidden" name="request" value="GetFeature">
+		<input type="hidden" name="TYPENAME" value="">
+		<!-- <input type="hidden" name="OUTPUT" value="text/javascript"> -->
+
+		<input type="hidden" name="OUTPUT" value="text/javascript">
+
+
+		<input type="hidden" name="SRSNAME" value="EPSG:900913">
+		<input type="hidden" name="BBOX" value="">
+	</form>	
+	<DIV><span>wfs</span><div id="wfs_result"></div></DIV></li>
+</div>
+
+<div style="clear: both; word-break:break-all; width: 800px;"><span>wfs_url</span><div id="wfs_url"></div></div>
+
+<script type="text/javascript">
+/* 오픈 레이어스에서 WMTS API를 이용 브이월드 배경지도를 호출  */
+let wmts = new ol.layer.Tile({
+	source: new ol.source.XYZ({
+		//url: 'https://api.vworld.kr/req/wmts/1.0.0/CEB52025-E065-364C-9DBA-44880E3B02B8/Base/{z}/{y}/{x}.png'
+		url: 'https://api.vworld.kr/req/wmts/1.0.0/CEB52025-E065-364C-9DBA-44880E3B02B8/Satellite/{z}/{y}/{x}.jpeg'
+	})
+});
+
+let newProj = ol.proj.get('EPSG:3857'); // 사용 좌표계
+let newProjExtent = newProj.getExtent(); // 지도의 범위
+
+
+/* 뷰 설정 초기 위치 값 및 지도의 지원 줌레벨 현재 줌레벨 지도의 좌표계설정을 설정  */
+let olView = new ol.View({
+  center: ol.proj.transform([127.100616,37.402142], 'EPSG:4326', 'EPSG:3857'),
+  zoom: 10,
+	  minZoom : 5,
+	  maxZoom : 21,
+	 projection: newProj,
+ extent: newProjExtent || undefined // 해당 지역을 지도에서 벗어나지 않도록 설정
+})
+
+/* 지도객체 설정 DIV 영역에 지도를 그림  */
+let vmap = new ol.Map({
+  layers: [wmts], // 타일레이어를 올림
+  target: 'map', //대상이 되는 div 
+  view: olView 
+});
+
+
+/* 폴리곤의 스타일 설정 */
+let vectorStyle = function(feature) {
+    let style = new ol.style.Style({
+	    stroke: new ol.style.Stroke({
+	        color: [0, 256, 0, 1],
+	        width: 5
+	    }),
+	    fill: new ol.style.Fill({
+	        color: [256, 0, 0, .7]
+	    })
+    });
+    return [style];
+}
+
+newProj = ol.proj.get('EPSG:3857');
+newProjExtent = newProj.getExtent();        
+
+
+//대한민국 기준 좌표계는 projection 등록 후 사용 가능
+
+function updateViewProjection(viewProjSelect) {
+	  
+	let newProj = ol.proj.get(viewProjSelect);
+	let newProjExtent, centerc;
+
+	/* EPSG.io 에서 proj4 프로젝션 정보를 받아서 openlayers에 설정 구현
+	*/
+	$.ajax({
+		type: "get",
+		url: "https://epsg.io/?format=json&q="+viewProjSelect,
+		data : $('#wfsForm').serialize(),
+		dataType: 'jsonp',
+		async: false,
+		jsonpCallback:"parseResponse",
+		success: function(data) {	
+			let epsg = "EPSG:"+viewProjSelect;
+			let epsg_proj4 = data.results[0].proj4;
+			if(viewProjSelect==4326){
+				//console.log(epsg_proj4);
+				//epsg_proj4=epsg_proj4.replace("+no_defs","+axis=neu +no_defs");
+			}else if(viewProjSelect==5186||viewProjSelect==5187||viewProjSelect==5188){
+				//console.log(epsg_proj4);
+				epsg_proj4=epsg_proj4.replace("+no_defs","+axis=neu +no_defs");
+				//console.log(epsg_proj4);
+				//5186,5187,5188 좌표계의 경우 x,y 순서를 바꿔주는 옵션이 필요함 +axis=neu
+			}
+
+			proj4.defs(epsg, epsg_proj4); 
+			ol.proj.proj4.register(proj4);
+			newProj = ol.proj.get(epsg);
+			let fromLonLat = ol.proj.getTransform('EPSG:4326', newProj); //270613.42427841784, 2486372.2503146906
+			let extent = ol.extent.applyTransform([112.5, 29.53522956294847, 135, 45.089], fromLonLat);
+			newProj.setExtent(extent);
+			newProjExtent = newProj.getExtent();
+			//centerc = [224578.25,402963.26]
+			centerc = ol.proj.transform([127.100616,37.402142], 'EPSG:4326', epsg);
+			console.log(data);
+
+			let olView2 = new ol.View({
+				center : centerc,
+				//center: ol.proj.transform([127.100616,37.402142], 'EPSG:4326', viewProjSelect),
+				//center: ol.extent.getCenter(newProjExtent || [0, 0, 0, 0]),
+				projection: newProj,
+				extent: newProjExtent || undefined,
+				zoom: 7,
+					minZoom : 0,
+					maxZoom : 21
+			})
+			vmap.setView(olView2);
+		},//success 종료
+		
+		error: function(xhr, stat, err) {}
+	});
+}//updateViewProjection 종료
+
+
+/* 지도의 클릭이벤트 설정 */
+vmap.on('singleclick', function(evt) {
+	let pixel = evt.pixel;
+	vmap.getLayers().forEach(function(layer){
+		if(layer.get("name")=="wms_theme"){
+			let selectlayer = layer.get("id")
+			if(selectlayer.indexOf(",") >-1){
+				selectlayer = selectlayer.split(",")[0]; //data API는 레이어 1개씩 조회가 가능해서 2개이상이 입력될경우 변경되도록 설정(지적도)
+			}
+			let min = vmap.getCoordinateFromPixel([evt.pixel[0] -4,evt.pixel[1]+4])
+		    let max = vmap.getCoordinateFromPixel([evt.pixel[0] +4,evt.pixel[1]-4])
+		    let box = min[0]+","+min[1]+","+max[0]+","+max[1]
+			let code = vmap.getView().getProjection().getCode();
+		    
+		    /*WFS jsonp 테스트*/
+		    
+		    $('#wfsForm > [name=BBOX]').val(box);		
+		    $('#wfsForm > [name=SRSNAME]').val(code);
+		    $.ajax({
+		    	type: "get",
+		    	url: "https://api.vworld.kr/req/wfs",
+		    	data : $('#wfsForm').serialize(),
+		    	dataType: 'jsonp',
+		    	async: false,
+		    	jsonpCallback:"parseResponse",
+		    	success: function(data) {
+					turl = 'https://api.vworld.kr/req/wfs?'+$('#wfsForm').serialize();
+		    	    $('#wfs_url').html(`<a href="${turl}" target="_blank">${turl}</a>`)
+		    	    
+		    	    let vectorSource = new ol.source.Vector({features: (new ol.format.GeoJSON()).readFeatures(data)})
+		    	    
+		    		vmap.getLayers().forEach(function(ollayer){
+		    			if(ollayer.get("name")=="wfs_result"){
+		    				vmap.removeLayer(ollayer);//기존결과 삭제
+		    			}
+		    		})
+		    	    let vector_layer = new ol.layer.Vector({
+						source: vectorSource,
+						style: vectorStyle
+		    	  	})
+		    	    
+		    	    vector_layer.set("name","wfs_result");
+		    	 	vmap.addLayer(vector_layer);
+		    	 	
+		    	 	let resultFeature = vectorSource.getFeatures()[0]
+		    	 	if(typeof resultFeature == "object"){
+			        	let wfs_html="";
+			        	for(let i in resultFeature.getKeys()){ 
+			        		wfs_html += resultFeature.getKeys()[i] + " = "+resultFeature.get(resultFeature.getKeys()[i])+"\n";
+			        	}
+			        	$('#wfs_result').html(wfs_html);
+		    	 	}
+		    	},
+		    	
+		    	error: function(xhr, stat, err) {}
+		    });
+		    
+		}
+    });
+ }); // 지도 클릭이벤트 설정 종료
+
+
+
+$(function(){
+	$(document).on('change','#select_wms',function(){
+		let this_val = $(this).val();
+		let this_title = $(this).prev().text();
+		$('[name=TYPENAME]').val(this_val.toLowerCase());
+		vmap.getLayers().forEach(function(layer){
+			if(layer.get("name")=="wms_theme"){
+				vmap.removeLayer(layer);//기존결과 삭제
+			}
+		})
+		let code = vmap.getView().getProjection().getCode();
+		
+		let layer_tile = new ol.layer.Tile({
+	        title: this_title,
+	        id: this_val,
+	        name: "wms_theme", //vmap 올린 레이어를 삭제하거나 수정,변경할때 접근할 name 속성
+	        projection: code,
+	        extent: vmap.getView().getProjection().getExtent(), //[-20037508.34, -20037508.34, 20037508.34, 20037508.34]
+	        maxZoom: 18,
+	        minZoom: 10,
+	        tilePixelRatio: 1,
+	        tileSize: [512, 512],
+	        source: new ol.source.TileWMS({
+	            url: "https://api.vworld.kr/req/wms?",
+	            params: {
+	                LAYERS: this_val.replace("_INFO","").toLowerCase(),
+	                STYLES: this_val.replace("_INFO","").toLowerCase(),
+	                CRS: code,
+	                apikey: "CEB52025-E065-364C-9DBA-44880E3B02B8",
+	                DOMAIN:"http://loacalhost:8080",
+	                title: this_title,
+	                FORMAT: "image/png",
+	                WIDTH:512,
+	                HEIGHT:512
+	            }
+		    })
+		});
+		layer_tile.setZIndex(5);
+		vmap.addLayer(layer_tile);
+		let imgSrc = "https://api.vworld.kr/req/image?key=CEB52025-E065-364C-9DBA-44880E3B02B8&service=image&request=GetLegendGraphic&format=png&type=ALL&layer="+this_val+"&style="+this_val
+		$('#wms_image').html("<img src='"+imgSrc+"' alt ='"+this_title+"의 범례이미지' >");
+	});//'change'
+})
+
+
+</script>
+</body>
+</html>
