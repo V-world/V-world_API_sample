@@ -28,7 +28,7 @@
 [📥 1. 공간정보 오픈플랫폼 활용 교육](https://drive.google.com/file/d/1lDWQIdzm72xSf4-Ox8n50lyOYqfCygmW/view?usp=drive_link)</br>
 [📥 2. 공간정보 오픈플랫폼 분석 교육](https://drive.google.com/file/d/1IOifMBKHXqhghEYD9HJxUrbbjt7-XzY4/view?usp=drive_link)</br>
 [📥 2-1. 공간정보 오픈플랫폼 분석 교육 실습자료](https://drive.google.com/file/d/127_uIPT0hnV9j-UfhI6Iw5dCrjR79OJs/view?usp=drive_link)</br>
-[📥 3. 공간정보 오픈플랫폼 개발 교육(자료 추후 업로드 예정)]</br>
+📥 3. 공간정보 오픈플랫폼 개발 교육(자료 추후 업로드 예정)</br>
 </br>
 
 ## 사전 준비
@@ -56,6 +56,8 @@
 ![image](./images/VSCode%20(3).JPG)
 
 ## 공간정보 오픈플랫폼 개발 교육
+
+## 2차시 교육
 
 ### folium 불러오기
 
