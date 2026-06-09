@@ -1,7 +1,7 @@
 # 2025년 브이월드 교육
 
 🙌 교육 목표 : 
- - (활용기초) 공간정보와 브이월드의 개념을 알고 서비스 기능을 활용할 수 있다.
+ - (기능활용) 공간정보와 브이월드의 개념을 알고 서비스 기능을 활용할 수 있다.
  - (분석실습) 브이월드 데이터를 활용하여 공간정보를 시각화하고 분석할 수 있다.
  - (개발실습) 브이월드 API를 활용하여 2D/3D 지도와 주제도를 표출할 수 있다.
 
@@ -24,11 +24,11 @@
 
 ## 교육자료 다운로드
 
-[📥 1. 공간정보 오픈플랫폼 활용 교육](https://drive.google.com/file/d/1lDWQIdzm72xSf4-Ox8n50lyOYqfCygmW/view?usp=drive_link)</br>
-[📥 2. 공간정보 오픈플랫폼 분석 교육](https://drive.google.com/file/d/1IOifMBKHXqhghEYD9HJxUrbbjt7-XzY4/view?usp=drive_link)</br>
-[📥 2-1. 공간정보 오픈플랫폼 분석 교육 실습자료](https://drive.google.com/file/d/127_uIPT0hnV9j-UfhI6Iw5dCrjR79OJs/view?usp=drive_link)</br>
-[📥 3. 공간정보 오픈플랫폼 개발 교육](https://drive.google.com/file/d/1UljsWd_FrkX0Jje-Zxetr_a_CWu0zBuU/view?usp=drive_link)</br>
-[📥 3-1. 공간정보 오픈플랫폼 개발 교육 실습자료](https://drive.google.com/file/d/1kcUkDUdGXmDMkgXT3DQr2rp6PoD6WY4s/view?usp=drive_link)</br>
+[📥 1. 공간정보 오픈플랫폼 서비스 활용 교육](https://drive.google.com/file/d/1ywkfFQZS04KYpKk1eRy0VRu22Myt6oI5/view?usp=drive_link)</br>
+[📥 2-1. 공간정보 오픈플랫폼 시각화 분석 교육](https://drive.google.com/file/d/1xCbmG7n4vIPXHT7h4jgF8sckRx2vg_lL/view?usp=drive_link)</br>
+[📥 2-2. 공간정보 오픈플랫폼 시각화 분석 교육 실습자료](https://drive.google.com/file/d/13G_--Fl4rZAbc1R8NQRYhs2GSSIph9_3/view?usp=drive_link)</br>
+[📥 3-1. 공간정보 오픈플랫폼 서비스 개발 교육](https://drive.google.com/file/d/1UljsWd_FrkX0Jje-Zxetr_a_CWu0zBuU/view?usp=drive_link)</br>
+[📥 3-2. 공간정보 오픈플랫폼 서비스 개발 교육 실습자료](https://drive.google.com/file/d/1kcUkDUdGXmDMkgXT3DQr2rp6PoD6WY4s/view?usp=drive_link)</br>
 </br>
 
 ## 사전 준비
